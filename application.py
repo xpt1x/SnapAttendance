@@ -3,14 +3,14 @@ from uims_api import SessionUIMS
 from uims_api.exceptions import IncorrectCredentialsError
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
 @app.route('/api', methods=['POST'])
 def get_data():
-    
+
     if not request.form.get('uid'):
         return jsonify({'error': 'UID not provided'})
     if not request.form.get('password'):
