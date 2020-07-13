@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from uims_api import SessionUIMS
+from uims_api.exceptions import IncorrectCredentialsError
 app = Flask(__name__)
 
 @app.route('/')
@@ -15,9 +16,10 @@ def get_data():
     if not request.form.get('password'):
         return jsonify({'error': 'password not provided'})
 
+    my_acc = SessionUIMS(request.form.get('uid'), request.form.get('password'))
     try:
-        my_acc = SessionUIMS(request.form.get('uid'), request.form.get('password'))      
+        subjects = my_acc.attendance
     except:
-        return jsonify({'error': 'Invalid credentials'})
-    response = my_acc.attendance
-    return jsonify(response)
+        return jsonify({'error': 'Invalid UID'})
+    else:
+        return jsonify(subjects)
