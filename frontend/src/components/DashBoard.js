@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-
 
 const useStyles = makeStyles({
     title: {
@@ -22,13 +21,9 @@ const useStyles = makeStyles({
 
 export default function DashBoard()
 {
+    const [attendance, setAttendance] = useState([])
     const cacheMinute = 1
-    if(localStorage.getItem('attendance') != null && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000*60*cacheMinute))
-    {
-        console.log(`Cached attendance ${JSON.parse(localStorage.getItem('attendance'))}`)
-    }
-    else
-    {
+    useEffect(() => {
         const formdata = new FormData()
         formdata.append('uid', localStorage.getItem('uid'))
         formdata.append('password', localStorage.getItem('password'))
@@ -38,46 +33,44 @@ export default function DashBoard()
             body: formdata
         }).then(data => data.json()).then(data => {
             console.log(data);
+            setAttendance(data)
             //check error here also
             if(data.error)
                 console.log('Looks like your UIMS password is changed! Please up')
             localStorage.setItem('attendance', JSON.stringify(data))
             localStorage.setItem('timestamp', Date.now())
         })
+    }, [])
+
+    if(localStorage.getItem('attendance') != null && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000*60*cacheMinute))
+    {
+        setAttendance(JSON.parse(localStorage.getItem('attendance')))
+        console.log(`Cached attendance ${JSON.parse(localStorage.getItem('attendance'))}`)
     }
+
     const classes = useStyles();
     return (
         <List component="ul">
+            {attendance.map(subject => ( 
             <ListItem>
                 <Card className={classes.fullWidth}>
                     <CardContent>
                         <Typography variant="h5" gutterBottom>
-                            Computer Networks Lab
+                            {subject.Title} [{subject.Code}]
                         </Typography>
                         <Typography variant="h6" color="textSecondary" className={classes.content}>
-                            Total Attended: 12
+                            Total Percentage: {subject.TotalPercentage}
+                        </Typography>
+                        <Typography variant="h6" color="textSecondary" className={classes.content}>
+                            Total Attended: {subject.Total_Att}
                         </Typography>
                         <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
-                            Total Delivered: 14
+                            Total Delivered: {subject.Total_Delv}
                         </Typography>
                     </CardContent>
                 </Card>
             </ListItem>
-            <ListItem>
-                <Card className={classes.fullWidth}>
-                    <CardContent>
-                        <Typography variant="h5" gutterBottom>
-                            Computer Networks Lab
-                        </Typography>
-                        <Typography variant="h6" color="textSecondary" className={classes.content}>
-                            Total Attended: 12
-                        </Typography>
-                        <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
-                            Total Delivered: 14
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </ListItem>
+            ))}
         </List>
     )
 }
