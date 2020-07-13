@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, jsonify
 from uims_api import SessionUIMS
 
-app = Flask(__name__)
+# For production using build 
+app = Flask(__name__, template_folder='frontend/build', static_folder='frontend/build/static')
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/api', methods=['POST'])
 def get_data():

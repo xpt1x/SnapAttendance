@@ -1,7 +1,6 @@
 README.md
 setup.py
 uims_api/__init__.py
-uims_api/exceptions.py
 uims_api/session.py
 uims_api.egg-info/PKG-INFO
 uims_api.egg-info/SOURCES.txt
