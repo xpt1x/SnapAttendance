@@ -32,11 +32,19 @@ function handleClick(event){
     event.preventDefault();
 
     const form = document.getElementById('signin-form');
+    const uid = document.getElementById('uid').value
+    const pass = document.getElementById('password').value
+
     fetch('/api', {
         method: 'POST',
         body: new URLSearchParams(new FormData(form))
     }).then(data => data.json()).then(data => {
         console.log(data);
+        if(!data.error)
+        {
+          localStorage.setItem('uid', uid)
+          localStorage.setItem('password', pass)
+        }
     })
 }
 
