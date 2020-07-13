@@ -36,7 +36,8 @@ export default function DashBoard()
             setAttendance(data)
             //check error here also
             if(data.error)
-                console.log('Looks like your UIMS password is changed! Please up')
+                console.log('Looks like your UIMS password is changed!')
+
             localStorage.setItem('attendance', JSON.stringify(data))
             localStorage.setItem('timestamp', Date.now())
         })
@@ -45,7 +46,7 @@ export default function DashBoard()
     if(localStorage.getItem('attendance') != null && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000*60*cacheMinute))
     {
         setAttendance(JSON.parse(localStorage.getItem('attendance')))
-        console.log(`Cached attendance ${JSON.parse(localStorage.getItem('attendance'))}`)
+        console.log(`This is cached attendance ${attendance}`)
     }
 
     const classes = useStyles();
