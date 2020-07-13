@@ -2,8 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
-from .exceptions import IncorrectCredentialsError
-
 BASE_URL = "https://uims.cuchd.in"
 AUTHENTICATE_URL = BASE_URL + "/uims/"
 
@@ -53,7 +51,6 @@ class SessionUIMS:
         print(response.status_code)
         incorrect_credentials = response.status_code == 200
         if incorrect_credentials:
-            # raise IncorrectCredentialsError("Make sure UID and Password are correct.")
             self.isvalid = False
 
         aspnet_session_cookies = response.cookies
