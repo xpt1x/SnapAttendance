@@ -3,11 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -33,6 +28,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function handleClick(event){
+    event.preventDefault();
+
+    const form = document.getElementById('signin-form');
+    fetch('/api', {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(form))
+    }).then(data => data.json()).then(data => {
+        console.log(data);
+    })
+}
+
 export default function SignIn() {
   const classes = useStyles();
 
@@ -44,12 +51,9 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
-          <Typography component="small">
-            Use your UIMS id and password here
-          </Typography>
+          Sign In
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate id="signin-form">
           <TextField
             variant="outlined"
             margin="normal"
@@ -78,6 +82,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleClick}
           >
             Sign In
           </Button>
