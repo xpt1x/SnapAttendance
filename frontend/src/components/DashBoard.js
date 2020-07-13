@@ -39,6 +39,8 @@ export default function DashBoard()
         }).then(data => data.json()).then(data => {
             console.log(data);
             //check error here also
+            if(data.error)
+                console.log('Looks like your UIMS password is changed!')
             localStorage.setItem('attendance', JSON.stringify(data))
             localStorage.setItem('timestamp', Date.now())
         })
