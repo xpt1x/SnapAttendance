@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="fetchdata()">Get data</button>
+    
+    <div id="xyz"></div>
+    <script>
+        async function fetchdata() {
+            const formData = new FormData()
+            formData.append('uid', 'hello')
+            formData.append('password', 'Apna pass')
+
+            let response = await fetch('/api', {
+                method: 'POST',
+                body: formData
+            });
+            let result = await response.json();
+            document.getElementById('xyz').innerHTML += JSON.stringify(result)
+        }
+    </script>
+</body>
+</html>
