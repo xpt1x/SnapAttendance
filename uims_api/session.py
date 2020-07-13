@@ -16,7 +16,7 @@ class SessionUIMS:
         self._password = password
         self.cookies = None
         self.refresh_session()
-
+        self.isvalid = True
         self._attendance = None
 
     def _login(self):
@@ -52,7 +52,8 @@ class SessionUIMS:
 
         incorrect_credentials = response.status_code == 200
         if incorrect_credentials:
-            raise IncorrectCredentialsError("Make sure UID and Password are correct.")
+            # raise IncorrectCredentialsError("Make sure UID and Password are correct.")
+            self.isvalid = False
 
         aspnet_session_cookies = response.cookies
 

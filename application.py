@@ -20,6 +20,6 @@ def get_data():
     try:
         subjects = my_acc.attendance
     except:
-        return jsonify({'error': 'Invalid UID'})
+        return jsonify({'error': 'Invalid creds'})
     else:
         return jsonify(subjects)
