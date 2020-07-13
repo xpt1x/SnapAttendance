@@ -15,14 +15,14 @@ class SessionUIMS:
         self._uid = uid
         self._password = password
         self.cookies = None
-        self.refresh_session()
+        # self.refresh_session()
 
         self._attendance = None
 
     def _login(self):
         response = requests.get(AUTHENTICATE_URL)
         soup = BeautifulSoup(response.text, "html.parser")
-        viewstate_tag = soup.find("input", {"name":"__VIEWSTATE"})
+        viewstate_tag = soup.find("input", {"name": "__VIEWSTATE"})
 
         data = {"__VIEWSTATE": viewstate_tag["value"],
                 "txtUserId": self._uid,
@@ -39,7 +39,7 @@ class SessionUIMS:
         response = requests.get(password_url, cookies=response.cookies)
         login_cookies = response.cookies
         soup = BeautifulSoup(response.text, "html.parser")
-        viewstate_tag = soup.find("input", {"name":"__VIEWSTATE"})
+        viewstate_tag = soup.find("input", {"name": "__VIEWSTATE"})
 
         data = {"__VIEWSTATE": viewstate_tag["value"],
                 "txtLoginPassword": self._password,
@@ -50,13 +50,16 @@ class SessionUIMS:
                                  cookies=response.cookies,
                                  allow_redirects=False)
 
+        print(response.status_code)
         incorrect_credentials = response.status_code == 200
         if incorrect_credentials:
-            raise IncorrectCredentialsError("Make sure UID and Password are correct.")
+            raise Exception(
+                "Make sure UID and Password are correct.")
 
         aspnet_session_cookies = response.cookies
 
-        login_and_aspnet_session_cookies = requests.cookies.merge_cookies(login_cookies, aspnet_session_cookies)
+        login_and_aspnet_session_cookies = requests.cookies.merge_cookies(
+            login_cookies, aspnet_session_cookies)
         return login_and_aspnet_session_cookies
 
     def refresh_session(self):
@@ -87,9 +90,12 @@ class SessionUIMS:
         # fetch the attendance in JSON format in the next step as you'll see, otherwise the
         # server will return an error response
         js_report_block = response.text.find("getReport")
-        initial_quotation_mark = js_report_block + response.text[js_report_block:].find ("'")
-        ending_quotation_mark = initial_quotation_mark + response.text[initial_quotation_mark+1:].find("'")
-        report_id = response.text[initial_quotation_mark+1 : ending_quotation_mark+1]
+        initial_quotation_mark = js_report_block + \
+            response.text[js_report_block:].find("'")
+        ending_quotation_mark = initial_quotation_mark + \
+            response.text[initial_quotation_mark+1:].find("'")
+        report_id = response.text[initial_quotation_mark +
+                                  1: ending_quotation_mark+1]
 
         # On intercepting the requests made by my browser, I found that this URL returns the
         # attendance information in JSON format
