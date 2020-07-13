@@ -9,15 +9,15 @@ def index():
 
 @app.route('/api', methods=['POST'])
 def get_data():
-    try:
-        uid = request.form.get('uid')
-        password = request.form.get('password')
-    except:
-        uid = password = None
+    
+    if not request.form.get('uid'):
+        return jsonify({'error': 'UID not provided'})
+    if not request.form.get('password'):
+        return jsonify({'error': 'password not provided'})
 
-    my_acc = SessionUIMS(uid, password)
     try:
-        response = my_acc.attendance
+        my_acc = SessionUIMS(request.form.get('uid'), request.form.get('password'))      
     except:
         return jsonify({'error': 'Invalid credentials'})
+    response = my_acc.attendance
     return jsonify(response)
