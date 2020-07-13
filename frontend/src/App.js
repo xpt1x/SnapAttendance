@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import SingIn from './components/SingIn'
-// import a from './components/Dashboard';
+import DashBoard from './components/DashBoard';
 
 class App extends Component {
   constructor(props) {
@@ -11,12 +11,12 @@ class App extends Component {
   }
 
   render() {
+    if (localStorage.getItem('uid')) {
+      return (<DashBoard />)
+    }
     return (
       <SingIn />
     )
-    // if (localStorage.getItem('uid')) {
-    //   return (<DashBoard />)
-    // }
   }
 }
 

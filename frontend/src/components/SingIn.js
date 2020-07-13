@@ -35,15 +35,38 @@ function handleClick(event){
     const uid = document.getElementById('uid').value
     const pass = document.getElementById('password').value
 
+    if(localStorage.getItem('attendance') && (Date.now - localStorage.getItem('timestamp') <= 1000*60*5))
+    {
+
+    }
+    else
+    {
+      fetch('/api', {
+          method: 'POST',
+          body: new URLSearchParams(new FormData(form))
+      }).then(data => data.json()).then(data => {
+          console.log(data);
+          if(!data.error)
+          {
+            localStorage.setItem('uid', uid)
+            localStorage.setItem('password', pass)
+            localStorage.setItem('attendance', JSON.stringify(data))
+            localStorage.setItem('timestamp', Date.now())
+          }
+      })
+    }
+
     fetch('/api', {
-        method: 'POST',
-        body: new URLSearchParams(new FormData(form))
-    }).then(data => data.json()).then(data => {
+      method: 'POST',
+      body: new URLSearchParams(new FormData(form))
+      }).then(data => data.json()).then(data => {
         console.log(data);
         if(!data.error)
         {
           localStorage.setItem('uid', uid)
           localStorage.setItem('password', pass)
+          localStorage.setItem('attendance', JSON.stringify(data))
+          localStorage.setItem('timestamp', Date.now())
         }
     })
 }
@@ -63,7 +86,6 @@ export default function SignIn() {
         </Typography>
         <form className={classes.form} noValidate id="signin-form">
           <TextField
-            variant="outlined"
             margin="normal"
             required
             fullWidth
@@ -74,7 +96,6 @@ export default function SignIn() {
             autoFocus
           />
           <TextField
-            variant="outlined"
             margin="normal"
             required
             fullWidth
