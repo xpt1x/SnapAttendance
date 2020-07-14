@@ -29,74 +29,82 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function handleClick(event){
+
+export default function SignIn() {
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const classes = useStyles();
+
+  function handleClick(event) {
     event.preventDefault();
 
     const form = document.getElementById('signin-form');
     const uid = document.getElementById('uid').value
     const pass = document.getElementById('password').value
 
-      fetch('http://localhost:5000/api', {
+    fetch('http://localhost:5000/api', {
       method: 'POST',
       body: new URLSearchParams(new FormData(form))
-      }).then(data => data.json()).then(data => {
-        console.log(data);
-        if(!data.error)
-        {
-          localStorage.setItem('uid', uid)
-          localStorage.setItem('password', pass)
-          localStorage.setItem('attendance', JSON.stringify(data))
-          localStorage.setItem('timestamp', Date.now())
-        }
+    }).then(data => data.json()).then(data => {
+      console.log(data);
+      if (!data.error) {
+        localStorage.setItem('uid', uid)
+        localStorage.setItem('password', pass)
+        localStorage.setItem('attendance', JSON.stringify(data))
+        localStorage.setItem('timestamp', Date.now())
+        setLoggedIn(true);
+      }
     })
-}
+  }
 
-export default function SignIn() {
-  const classes = useStyles();
-
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign In
-        </Typography>
-        <form className={classes.form} noValidate id="signin-form">
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="uid"
-            label="UID"
-            name="uid"
-            autoComplete="uid"
-            autoFocus
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleClick}
-          >
+  if(!loggedIn){
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
             Sign In
+        </Typography>
+          <form className={classes.form} noValidate id="signin-form">
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="uid"
+              label="UID"
+              name="uid"
+              autoComplete="uid"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleClick}
+            >
+              Sign In
           </Button>
-        </form>
-      </div>
-    </Container>
-  );
+          </form>
+        </div>
+      </Container>
+    );
+  }
+  else{
+    return (<DashBoard />)
+  }
+
 }
