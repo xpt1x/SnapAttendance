@@ -7,6 +7,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import DashBoard from './DashBoard';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -44,12 +45,7 @@ function handleClick(event){
         {
           localStorage.setItem('uid', uid)
           localStorage.setItem('password', pass)
-
-          const stringData = JSON.stringify(data)
-          let x = stringData.replace('[', '{')
-          let y = x.replace(']', '}')
-
-          localStorage.setItem('attendance', JSON.stringify(y))
+          localStorage.setItem('attendance', JSON.stringify(data))
           localStorage.setItem('timestamp', Date.now())
         }
     })

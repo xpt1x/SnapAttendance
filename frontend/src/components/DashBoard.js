@@ -28,8 +28,7 @@ export default function DashBoard()
 
     useEffect(() => {
         if (localStorage.getItem('attendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute)) {
-            const att = JSON.parse(localStorage.getItem('attendance'))
-            setAttendance(att)
+            setAttendance(JSON.parse(localStorage.getItem('attendance')))
         }
 
         else {
