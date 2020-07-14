@@ -57,7 +57,8 @@ function CircularProgressWithLabel(props) {
         >
           <Typography variant="h6" component="div" color="textPrimary">{`${Math.round(
             props.value,
-          )}`}</Typography>
+          )}`}
+          </Typography>
         </Box>
       </Box>
     );
@@ -79,6 +80,7 @@ export default function DashBoard()
         localStorage.clear();
         setLoggedIn(false);
     }
+
     useEffect(() => {
         // eslint-disable-next-line
         if(loggedIn){
@@ -95,9 +97,7 @@ export default function DashBoard()
                     method: 'POST',
                     body: formdata
                 }).then(data => data.json()).then(data => {
-                    // console.log(data);
 
-                    //check error here also
                     if (data.error){
                         console.log('Looks like your UIMS password is changed!')
                         setInvalid(true);
@@ -131,10 +131,10 @@ export default function DashBoard()
                                 <Card className={classes.fullWidth} button>
                                 <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
                                     <CardContent>
-                                        <Typography variant="h5" gutterBottom>
-                                            {subject.Title} [{subject.Code}]
+                                        <Typography variant="h6" gutterBottom>
+                                            {subject.Title}
                                         </Typography>
-                                        <CircularProgressWithLabel value={subject.TotalPercentage} />
+                                        <CircularProgressWithLabel value={subject.TotalPercentage}/>
                                         <Typography variant="h6" color="textSecondary" className={classes.content}>
                                             Total Percentage: {subject.TotalPercentage}
                                         </Typography>
@@ -144,6 +144,10 @@ export default function DashBoard()
                                         <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
                                             Total Delivered: {subject.Total_Delv}
                                         </Typography>
+                                        <Typography variant="overline" gutterBottom color="textPrimary" className={classes.content}>
+                                            [{subject.Code}]
+                                        </Typography>
+                                        
                                     </CardContent>
                                     </Box>
                                 </Card>
@@ -154,17 +158,7 @@ export default function DashBoard()
             </>
         ) : (<div className={classes.spinner}> <CircularProgress /> </div>)
     }
-    else{
-        if(invalid){
-            return (
-                <SignIn message="Your UIMS Password Expired" />
-            )
-        }
-        else{
-            return (
-                <SignIn/>
-            )
-        }
-    }
+    else
+        return invalid ? <SignIn message="Your UIMS Password Expired" /> : <SignIn/>
 }
   
