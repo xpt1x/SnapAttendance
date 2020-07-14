@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 from uims_api import SessionUIMS
 
 # For production using build
 app = Flask(__name__, template_folder='frontend/build',
             static_folder='frontend/build/static')
-
+CORS(app)
 
 @app.route('/')
 def index():

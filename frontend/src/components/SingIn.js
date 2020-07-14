@@ -35,7 +35,7 @@ function handleClick(event){
     const uid = document.getElementById('uid').value
     const pass = document.getElementById('password').value
 
-    fetch('/api', {
+      fetch('http://localhost:5000/api', {
       method: 'POST',
       body: new URLSearchParams(new FormData(form))
       }).then(data => data.json()).then(data => {

@@ -5,6 +5,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import CardActionArea from '@material-ui/core/CardActionArea';
 
 const useStyles = makeStyles({
     title: {
@@ -22,54 +23,64 @@ const useStyles = makeStyles({
 export default function DashBoard()
 {
     const [attendance, setAttendance] = useState([])
-    const cacheMinute = 1
+    const cacheMinute = 5;
+    
+
     useEffect(() => {
-        const formdata = new FormData()
-        formdata.append('uid', localStorage.getItem('uid'))
-        formdata.append('password', localStorage.getItem('password'))
+        if (localStorage.getItem('attendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute)) {
+            const att = JSON.parse(localStorage.getItem('attendance'))
+            setAttendance(att)
+        }
 
-        fetch('/api', {
-            method: 'POST',
-            body: formdata
-        }).then(data => data.json()).then(data => {
-            console.log(data);
-            setAttendance(data)
-            //check error here also
-            if(data.error)
-                console.log('Looks like your UIMS password is changed!')
+        else {
+            const formdata = new FormData()
+            formdata.append('uid', localStorage.getItem('uid'))
+            formdata.append('password', localStorage.getItem('password'))
 
-            localStorage.setItem('attendance', JSON.stringify(data))
-            localStorage.setItem('timestamp', Date.now())
-        })
+            fetch('http://localhost:5000/api', {
+                method: 'POST',
+                body: formdata
+            }).then(data => data.json()).then(data => {
+                // console.log(data);
+
+                //check error here also
+                if (data.error)
+                    console.log('Looks like your UIMS password is changed!')
+
+                else {
+                    localStorage.setItem('attendance', JSON.stringify(data))
+                    localStorage.setItem('timestamp', Date.now())
+                    setAttendance(data)
+                }
+            })
+        }
     }, [])
 
-    if(localStorage.getItem('attendance') != null && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000*60*cacheMinute))
-    {
-        setAttendance(JSON.parse(localStorage.getItem('attendance')))
-        console.log(`This is cached attendance ${attendance}`)
-    }
+    
 
     const classes = useStyles();
     return (
         <List component="ul">
             {attendance.map(subject => ( 
-            <ListItem>
-                <Card className={classes.fullWidth}>
-                    <CardContent>
-                        <Typography variant="h5" gutterBottom>
-                            {subject.Title} [{subject.Code}]
-                        </Typography>
-                        <Typography variant="h6" color="textSecondary" className={classes.content}>
-                            Total Percentage: {subject.TotalPercentage}
-                        </Typography>
-                        <Typography variant="h6" color="textSecondary" className={classes.content}>
-                            Total Attended: {subject.Total_Att}
-                        </Typography>
-                        <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
-                            Total Delivered: {subject.Total_Delv}
-                        </Typography>
-                    </CardContent>
-                </Card>
+            <ListItem key={subject.Code}>
+                <CardActionArea>
+                        <Card className={classes.fullWidth} button>
+                            <CardContent>
+                                <Typography variant="h5" gutterBottom>
+                                    {subject.Title} [{subject.Code}]
+                                </Typography>
+                                <Typography variant="h6" color="textSecondary" className={classes.content}>
+                                    Total Percentage: {subject.TotalPercentage}
+                                </Typography>
+                                <Typography variant="h6" color="textSecondary" className={classes.content}>
+                                    Total Attended: {subject.Total_Attd}
+                                </Typography>
+                                <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
+                                    Total Delivered: {subject.Total_Delv}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                </CardActionArea>
             </ListItem>
             ))}
         </List>
