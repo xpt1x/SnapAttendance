@@ -129,13 +129,13 @@ export default function DashBoard()
                     {attendance.map(subject => (
                         <ListItem key={subject.Code}>
                             <CardActionArea>
-                                <Card className={classes.fullWidth} button>
+                                <Card className={classes.fullWidth}>
                                     <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
                                         <CardContent>
                                             <Typography variant="h6" gutterBottom>
                                                 {subject.Title}
                                             </Typography>
-                                            <CircularProgressWithLabel value={subject.TotalPercentage}/>
+                                            <CircularProgressWithLabel value={parseInt(subject.TotalPercentage)}/>
                                             <Typography variant="h6" color="textSecondary" className={classes.content}>
                                                 Total Percentage: {subject.TotalPercentage}
                                             </Typography>
