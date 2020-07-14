@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function SignIn() {
+export default function SignIn(props) {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [invalid, setInvalid] = React.useState(false);
@@ -84,6 +84,7 @@ export default function SignIn() {
             Sign In
           </Typography>
           {invalid ? <Alert className={classes.alert} severity="error">Invalid credentials!</Alert> : ''}
+          {props.message ? <Alert className={classes.alert} severity="error">props.message</Alert> : ""}
           <form className={classes.form} noValidate id="signin-form">
             <TextField
               margin="normal"
