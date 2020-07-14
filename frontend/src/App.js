@@ -15,7 +15,7 @@ class App extends Component {
       return (<DashBoard />)
     }
     return (
-        <SingIn />
+      <SingIn />
     )
   }
 }
