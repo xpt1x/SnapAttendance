@@ -79,8 +79,11 @@ export default function DashBoard()
         localStorage.clear();
         setLoggedIn(false);
     }
+
+    function showSubject(subject){
+        console.log(subject);
+    }
     useEffect(() => {
-        // eslint-disable-next-line
         if(loggedIn){
             if (localStorage.getItem('attendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute)) {
                 setAttendance(JSON.parse(localStorage.getItem('attendance')))
@@ -129,22 +132,22 @@ export default function DashBoard()
                             <CardActionArea>
                                 
                                 <Card className={classes.fullWidth} button>
-                                <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
-                                    <CardContent>
-                                        <Typography variant="h5" gutterBottom>
-                                            {subject.Title} [{subject.Code}]
-                                        </Typography>
-                                        <CircularProgressWithLabel value={subject.TotalPercentage} />
-                                        <Typography variant="h6" color="textSecondary" className={classes.content}>
-                                            Total Percentage: {subject.TotalPercentage}
-                                        </Typography>
-                                        <Typography variant="h6" color="textSecondary" className={classes.content}>
-                                            Total Attended: {subject.Total_Attd}
-                                        </Typography>
-                                        <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
-                                            Total Delivered: {subject.Total_Delv}
-                                        </Typography>
-                                    </CardContent>
+                                    <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
+                                        <CardContent>
+                                            <Typography variant="h5" gutterBottom>
+                                                {subject.Title} [{subject.Code}]
+                                            </Typography>
+                                            <CircularProgressWithLabel value={subject.TotalPercentage} />
+                                            <Typography variant="h6" color="textSecondary" className={classes.content}>
+                                                Total Percentage: {subject.TotalPercentage}
+                                            </Typography>
+                                            <Typography variant="h6" color="textSecondary" className={classes.content}>
+                                                Total Attended: {subject.Total_Attd}
+                                            </Typography>
+                                            <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
+                                                Total Delivered: {subject.Total_Delv}
+                                            </Typography>
+                                        </CardContent>
                                     </Box>
                                 </Card>
                             </CardActionArea>

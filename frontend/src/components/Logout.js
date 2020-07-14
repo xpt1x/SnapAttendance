@@ -1,12 +1,12 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 function Logout(props) {
     return (
-        <Button onClick={props.onClick}>
+        <IconButton onClick={props.onClick}>
             <ExitToAppIcon/>
-        </Button>
+        </IconButton>
     )
 }
 
