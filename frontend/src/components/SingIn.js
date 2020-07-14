@@ -118,10 +118,7 @@ export default function SignIn() {
           </form>
         </div>
       </Container>
-    ) : (<div className={classes.spinner}>
-        <CircularProgress />
-        </div>
-        )
+    ) : (<div className={classes.spinner}> <CircularProgress /> </div>)
   }
   else{
     return (<DashBoard />)

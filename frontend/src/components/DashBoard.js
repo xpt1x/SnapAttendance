@@ -6,8 +6,9 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     title: {
         fontSize: 14
     },
@@ -16,13 +17,19 @@ const useStyles = makeStyles({
     },
     fullWidth: {
         width: "100%"
-    }
-})
+    },
+    spinner: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: theme.spacing(30)
+    },
+}))
 
 
 export default function DashBoard()
 {
     const [attendance, setAttendance] = useState([])
+    const [loading, setLoading] = useState(false)
     const cacheMinute = 5;
     
 
@@ -35,7 +42,7 @@ export default function DashBoard()
             const formdata = new FormData()
             formdata.append('uid', localStorage.getItem('uid'))
             formdata.append('password', localStorage.getItem('password'))
-
+            setLoading(true)
             fetch('http://localhost:5000/api', {
                 method: 'POST',
                 body: formdata
@@ -47,9 +54,11 @@ export default function DashBoard()
                     console.log('Looks like your UIMS password is changed!')
 
                 else {
+                    setLoading(false)
+                    setAttendance(data)
+
                     localStorage.setItem('attendance', JSON.stringify(data))
                     localStorage.setItem('timestamp', Date.now())
-                    setAttendance(data)
                 }
             })
         }
@@ -58,7 +67,7 @@ export default function DashBoard()
     
 
     const classes = useStyles();
-    return (
+    return !loading ? (
         <List component="ul">
             {attendance.map(subject => ( 
             <ListItem key={subject.Code}>
@@ -83,5 +92,5 @@ export default function DashBoard()
             </ListItem>
             ))}
         </List>
-    )
+    ) : (<div className={classes.spinner}> <CircularProgress /> </div>)
 }
