@@ -84,7 +84,7 @@ export default function SignIn(props) {
             Sign In
           </Typography>
           {invalid ? <Alert className={classes.alert} severity="error">Invalid credentials!</Alert> : ''}
-          {props.message ? <Alert className={classes.alert} severity="error">props.message</Alert> : ""}
+          {props.message ? <Alert className={classes.alert} severity="error">prop</Alert>:""}
           <form className={classes.form} noValidate id="signin-form">
             <TextField
               margin="normal"
