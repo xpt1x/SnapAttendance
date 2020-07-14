@@ -30,8 +30,8 @@ export default function DashBoard()
 {
     const [attendance, setAttendance] = useState([])
     const [loading, setLoading] = useState(false)
+    const [invalid, setInvalid] = useState(false)
     const cacheMinute = 5;
-    
 
     useEffect(() => {
         if (localStorage.getItem('attendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute)) {
@@ -51,7 +51,7 @@ export default function DashBoard()
 
                 //check error here also
                 if (data.error)
-                    console.log('Looks like your UIMS password is changed!')
+                    setInvalid(true)
 
                 else {
                     setLoading(false)
