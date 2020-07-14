@@ -7,6 +7,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import DashBoard from '../components/DashBoard'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,16 +29,27 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  spinner: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing(30)
+  },
+  alert: {
+    marginTop: theme.spacing(2)
+  }
 }));
 
 
 export default function SignIn() {
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [invalid, setInvalid] = React.useState(false);
+
   const classes = useStyles();
 
   function handleClick(event) {
     event.preventDefault();
-
+    setLoading(true)
     const form = document.getElementById('signin-form');
     const uid = document.getElementById('uid').value
     const pass = document.getElementById('password').value
@@ -45,6 +59,7 @@ export default function SignIn() {
       body: new URLSearchParams(new FormData(form))
     }).then(data => data.json()).then(data => {
       console.log(data);
+      setLoading(false)
       if (!data.error) {
         localStorage.setItem('uid', uid)
         localStorage.setItem('password', pass)
@@ -52,11 +67,13 @@ export default function SignIn() {
         localStorage.setItem('timestamp', Date.now())
         setLoggedIn(true);
       }
+      else
+        setInvalid(true)
     })
   }
 
   if(!loggedIn){
-    return (
+    return !loading ? (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -65,7 +82,8 @@ export default function SignIn() {
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign In
-        </Typography>
+          </Typography>
+          {invalid ? <Alert className={classes.alert} severity="error">Invalid credentials!</Alert> : ''}
           <form className={classes.form} noValidate id="signin-form">
             <TextField
               margin="normal"
@@ -100,7 +118,10 @@ export default function SignIn() {
           </form>
         </div>
       </Container>
-    );
+    ) : (<div className={classes.spinner}>
+        <CircularProgress />
+        </div>
+        )
   }
   else{
     return (<DashBoard />)
