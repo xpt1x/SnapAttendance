@@ -7,6 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Box from '@material-ui/core/Box';
+import PropTypes from 'prop-types';
 
 import Logout from './Logout';
 import SignIn from './SingIn';
@@ -26,9 +28,44 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         marginTop: theme.spacing(30)
     },
+    boxGreen: {
+        borderColor: '#34bf58'
+    },
+    boxRed: {
+        borderColor: '#e05151'
+    },
+    circular: {
+        float: "right",
+        marginRight: '1%'
+    },
 }))
 
-
+function CircularProgressWithLabel(props) {
+    const classes = useStyles();
+    return (
+      <Box className={classes.circular} position="relative" display="inline-flex">
+        <CircularProgress size={60} variant="static" {...props} />
+        <Box
+          top={0}
+          left={0}
+          bottom={0}
+          right={0}
+          position="absolute"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Typography variant="h6" component="div" color="textPrimary">{`${Math.round(
+            props.value,
+          )}`}</Typography>
+        </Box>
+      </Box>
+    );
+}
+  
+CircularProgressWithLabel.propTypes = {
+    value: PropTypes.number.isRequired,
+};
 
 export default function DashBoard()
 {
@@ -77,7 +114,7 @@ export default function DashBoard()
                 })
             }
         }
-    }, [])  
+    }, [loggedIn])  
 
     const classes = useStyles();
 
@@ -90,11 +127,14 @@ export default function DashBoard()
                     {attendance.map(subject => (
                         <ListItem key={subject.Code}>
                             <CardActionArea>
+                                
                                 <Card className={classes.fullWidth} button>
+                                <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
                                     <CardContent>
                                         <Typography variant="h5" gutterBottom>
                                             {subject.Title} [{subject.Code}]
-                                </Typography>
+                                        </Typography>
+                                        <CircularProgressWithLabel value={subject.TotalPercentage} />
                                         <Typography variant="h6" color="textSecondary" className={classes.content}>
                                             Total Percentage: {subject.TotalPercentage}
                                         </Typography>
@@ -105,6 +145,7 @@ export default function DashBoard()
                                             Total Delivered: {subject.Total_Delv}
                                         </Typography>
                                     </CardContent>
+                                    </Box>
                                 </Card>
                             </CardActionArea>
                         </ListItem>
@@ -126,3 +167,4 @@ export default function DashBoard()
         }
     }
 }
+  
