@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
@@ -147,7 +148,8 @@ export default function DashBoard()
                 <>
                     <AppBar position="fixed">
                         <Toolbar>
-                            <Typography><strong>{Object(attendance[0])['name']}</strong> ({Object(attendance[0])['UId']})</Typography>
+                            <AccountCircleIcon style={{marginRight: '7px'}} fontSize='small' />
+                            <Typography variant=''><strong>{Object(attendance[0])['name']}</strong> ({Object(attendance[0])['UId']})</Typography>
                             <Logout onClick={logout} />
                         </Toolbar>
                     </AppBar>
@@ -155,16 +157,13 @@ export default function DashBoard()
                         {attendance.map(subject => (
                             <ListItem key={subject.Code}>
                                 <CardActionArea>
-                                    <Card className={classes.fullWidth} onClick={() => showSubject(subject)}>
+                                    <Card elevation={10} className={classes.fullWidth} onClick={() => showSubject(subject)}>
                                         <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
                                             <CardContent>
                                                 <Typography variant="h6" gutterBottom>
                                                     {subject.Title}
                                                 </Typography>
                                                 <CircularProgressWithLabel value={parseFloat(subject.TotalPercentage)} color={subject.colorcode === 'Green' ? 'primary' : 'secondary'} />
-                                                {/* <Typography variant="h6" color="textSecondary" className={classes.content}>
-                                                    Total Percentage: {subject.TotalPercentage}
-                                                </Typography> */}
                                                 <Typography variant="h6" color="textSecondary" className={classes.content}>
                                                     Total Attended: {subject.Total_Attd}
                                                 </Typography>
