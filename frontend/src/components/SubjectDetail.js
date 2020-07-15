@@ -71,9 +71,9 @@ function SubjectDetail(props) {
     };
 
     const subDetails = []
-    Object.keys(props.subject).forEach(key => {
+    Object.keys(props.subject).forEach((key, idx) => {
         subDetails.push(
-            <Typography>
+            <Typography key={idx}>
                 {key} : {props.subject[key]}
             </Typography>
         )
