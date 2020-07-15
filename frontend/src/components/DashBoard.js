@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Card from '@material-ui/core/Card';
@@ -16,6 +16,17 @@ import PropTypes from 'prop-types';
 import Logout from './Logout';
 import SignIn from './SignIn';
 import SubjectDetail from './SubjectDetail';
+
+const circularProgressTheme = createMuiTheme({
+    palette: {
+        primary:{
+            main: '#34bf58'
+        },
+        secondary:{
+            main: '#e05151'
+        }
+    }
+})
 
 const useStyles = makeStyles(theme => ({
     title: {
@@ -40,7 +51,7 @@ const useStyles = makeStyles(theme => ({
     },
     circular: {
         position: 'absolute',
-        top: '50%',
+        top: '55%',
         right: '3%',
         transform: 'translateY(-50%)'
     },
@@ -50,7 +61,9 @@ function CircularProgressWithLabel(props) {
     const classes = useStyles();
     return (
       <Box className={classes.circular} position="relative" display="inline-flex">
-        <CircularProgress size={100} variant="static"  {...props} />
+        <ThemeProvider theme={circularProgressTheme} >
+        <   CircularProgress size={100} variant="static"  {...props} />
+        </ThemeProvider>
         <Box
           top={0}
           left={0}
@@ -148,7 +161,7 @@ export default function DashBoard()
                                                 <Typography variant="h6" gutterBottom>
                                                     {subject.Title}
                                                 </Typography>
-                                                <CircularProgressWithLabel value={parseInt(subject.TotalPercentage)} />
+                                                <CircularProgressWithLabel value={parseInt(subject.TotalPercentage)} color={subject.colorcode === 'Green' ? 'primary' : 'secondary'} />
                                                 <Typography variant="h6" color="textSecondary" className={classes.content}>
                                                     Total Percentage: {subject.TotalPercentage}
                                                 </Typography>
