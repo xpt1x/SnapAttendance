@@ -157,7 +157,7 @@ export default function DashBoard()
                         {attendance.map(subject => (
                             <ListItem key={subject.Code}>
                                 <CardActionArea>
-                                    <Card elevation={10} className={classes.fullWidth} onClick={() => showSubject(subject)}>
+                                    <Card className={classes.fullWidth} onClick={() => showSubject(subject)} variant="outlined">
                                         <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
                                             <CardContent>
                                                 <Typography variant="h6" gutterBottom>
