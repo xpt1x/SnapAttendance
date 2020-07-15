@@ -12,6 +12,10 @@ import Slide from '@material-ui/core/Slide';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -22,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
     },
     progressMargin: {
-        marginTop: theme.spacing(10),
+        marginTop: theme.spacing(5),
+        marginBottom: theme.spacing(5),
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
@@ -45,7 +50,7 @@ function CircularProgressWithLabel(props) {
                 alignItems="center"
                 justifyContent="center"
             >
-                <Typography variant="h6" component="div" color="textPrimary">
+                <Typography variant="h4" component="div" color="textPrimary">
                     {props.value + "%"}
                 </Typography>
             </Box>
@@ -70,14 +75,6 @@ function SubjectDetail(props) {
         props.close({});
     };
 
-    const subDetails = []
-    Object.keys(props.subject).forEach((key, idx) => {
-        subDetails.push(
-            <Typography key={idx}>
-                {key} : {props.subject[key]}
-            </Typography>
-        )
-    })
     return (
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
             <AppBar className={classes.appBar}>
@@ -93,9 +90,40 @@ function SubjectDetail(props) {
             <Container fixed className={classes.progressMargin}>
                 <CircularProgressWithLabel value={parseFloat(props.subject['TotalPercentage'])} color={props.subject.colorcode === 'Green' ? 'primary' : 'secondary'}/>
             </Container>
-            <Container >
-                {subDetails}
-            </Container>
+            <List>
+                <ListItem   >
+                    <ListItemText primary="Total Delivered" secondary={props.subject.Total_Delv} />
+                </ListItem>
+                <Divider />
+                <ListItem   >
+                    <ListItemText primary="Total Attended" secondary={props.subject.Total_Attd} />
+                </ListItem>
+                <Divider />
+                <ListItem   >
+                    <ListItemText primary="Duty Leave N P" secondary={props.subject.DutyLeave_N_P} />
+                </ListItem>
+                <Divider />
+                <ListItem   >
+                    <ListItemText primary="Duty Leave Others" secondary={props.subject.DutyLeave_Others} />
+                </ListItem>
+                <Divider />
+                <ListItem   >
+                    <ListItemText primary="Medical Leave" secondary={props.subject.MedicalLeave} />
+                </ListItem>
+                <Divider />
+                <ListItem   >
+                    <ListItemText primary="Eligible Delivered" secondary={props.subject.EligibilityDelivered} />
+                </ListItem>
+                <Divider />
+                <ListItem   >
+                    <ListItemText primary="Eligible Attended" secondary={props.subject.EligibilityAttended} />
+                </ListItem>
+                <Divider />
+                <ListItem   >
+                    <ListItemText primary="Eligible Percentage" secondary={props.subject.EligibilityPercentage} />
+                </ListItem>
+                <Divider />
+            </List>
         </Dialog>
     )
 }

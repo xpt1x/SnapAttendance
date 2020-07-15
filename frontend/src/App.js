@@ -15,7 +15,7 @@ class App extends Component {
     }
     return (
       <>
-        <SingIn />
+        <SignIn />
       </>
     )
   }
