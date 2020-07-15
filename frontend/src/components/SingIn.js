@@ -76,7 +76,7 @@ export default function SignIn(props) {
       method: 'POST',
       body: new URLSearchParams(new FormData(form))
     }).then(data => data.json()).then(data => {
-      console.log(data);
+      // console.log(data);
       setLoading(false)
       if (!data.error) {
         localStorage.setItem('uid', uid)

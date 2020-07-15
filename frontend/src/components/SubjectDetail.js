@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
@@ -67,18 +67,17 @@ function SubjectDetail(props) {
     const [open, setOpen] = React.useState(true);
     const handleClose = () => {
         setOpen(false);
-        //props.close();
+        props.close({});
     };
 
     const subDetails = []
     Object.keys(props.subject).forEach(key => {
         subDetails.push(
-            <Typography key={props.subject['Code']}>
+            <Typography>
                 {key} : {props.subject[key]}
             </Typography>
         )
     })
-    console.log(subDetails)
     return (
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
             <AppBar className={classes.appBar}>
