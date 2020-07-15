@@ -11,7 +11,7 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 
 import Logout from './Logout';
-import SignIn from './SingIn';
+import SignIn from './SignIn';
 import SubjectDetail from './SubjectDetail';
 
 const useStyles = makeStyles(theme => ({
@@ -74,7 +74,7 @@ export default function DashBoard()
     const [loading, setLoading] = useState(false)
     const [loggedIn, setLoggedIn] = useState(true);
     const [invalid, setInvalid] = useState(false);
-    const [subject, setSubject] = useStyles({})
+    const [subject, setSubject] = useState({})
     const cacheMinute = 5;
     
     function logout() {

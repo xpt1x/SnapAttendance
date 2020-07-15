@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import SingIn from './components/SingIn'
+import SignIn from './components/SignIn'
 import DashBoard from './components/DashBoard';
 import SubjectDetail from './components/SubjectDetail';
 import data from './response/response.json';
@@ -17,7 +17,7 @@ class App extends Component {
     }
     return (
       <>
-        <SingIn />
+        <SignIn />
         <SubjectDetail subject={data[0]} />
       </>
     )
