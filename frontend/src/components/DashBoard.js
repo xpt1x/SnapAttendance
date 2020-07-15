@@ -11,6 +11,8 @@ import Box from '@material-ui/core/Box';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import IconButton from '@material-ui/core/IconButton';
 
 import PropTypes from 'prop-types';
 
@@ -88,13 +90,13 @@ CircularProgressWithLabel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-export default function DashBoard()
+export default function DashBoard(props)
 {
     const [attendance, setAttendance] = useState([])
     const [loading, setLoading] = useState(false)
     const [loggedIn, setLoggedIn] = useState(true);
     const [invalid, setInvalid] = useState(false);
-    const [subject, setSubject] = useState({})
+    const [subject, setSubject] = useState({});
     const cacheMinute = 5;
     
     function logout() {
@@ -144,17 +146,22 @@ export default function DashBoard()
 
 
     if(loggedIn){
-        return !loading ? (
+        return (
+            
+            !loading ? (
             (!Object.keys(subject).length) ? (
                 <>
                     <AppBar position="fixed">
                         <Toolbar>
-                            <AccountCircleIcon style={{marginRight: '7px'}} fontSize='small' />
+                            <AccountCircleIcon style={{ marginRight: '7px' }} fontSize='small' />
                             <Typography><strong>{Object(attendance[0])['name']}</strong> ({Object(attendance[0])['UId']})</Typography>
+                                <IconButton onClick={props.changeTheme}>
+                                <Brightness4Icon style={{ color: '#fff' }} />
+                            </IconButton>
                             <Logout onClick={logout} />
                         </Toolbar>
                     </AppBar>
-                    <List component="ul" style={{top: '60px'}}>
+                    <List component="ul" style={{ top: '60px' }}>
                         {attendance.map(subject => (
                             <ListItem key={subject.Code}>
                                 <CardActionArea>
@@ -173,7 +180,7 @@ export default function DashBoard()
                                                 </Typography>
                                                 <Typography variant="overline" gutterBottom color="textPrimary" className={classes.content}>
                                                     [{subject.Code}]
-                                            </Typography>
+                                                            </Typography>
                                             </CardContent>
                                         </Box>
                                     </Card>
@@ -182,8 +189,10 @@ export default function DashBoard()
                         ))}
                     </List>
                 </>
-            ):<SubjectDetail subject={subject} close={setSubject}/>
+            ) : <SubjectDetail subject={subject} close={setSubject} />
         ) : (<div className={classes.spinner}> <CircularProgress /> </div>)
+    
+        )
     }
     else
         return invalid ? <SignIn message="Your UIMS Password Expired" /> : <SignIn/>

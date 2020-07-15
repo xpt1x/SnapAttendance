@@ -96,16 +96,13 @@ function SubjectDetail(props) {
 
     function calcuteLectures(props, req)
     {
-        req = req/100
+        //req = req/100
         let att = props.subject.EligibilityAttended
         let del = props.subject.EligibilityDelivered
-        if(del === 0 || (att/del >= req))
+        if(del === 0 || (att/del >= req/100))
             return 'NA'
         else {
-            let lecs
-            for (lecs = 0; (att/del) < req; lecs++) {
-                att++;del++;
-            }
+            let lecs = ((req*del) - (100 * att))/(100-req);
             return `${lecs} lectures more`
         }
     }
