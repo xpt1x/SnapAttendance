@@ -114,7 +114,7 @@ function SubjectDetail(props) {
                         <CloseIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        {props.subject['Title']} 
+                        {props.subject['Title'].toUpperCase()} 
                     </Typography>
                 </Toolbar>
             </AppBar>
