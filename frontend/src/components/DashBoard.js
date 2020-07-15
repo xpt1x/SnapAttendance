@@ -74,7 +74,7 @@ export default function DashBoard()
     const [loading, setLoading] = useState(false)
     const [loggedIn, setLoggedIn] = useState(true);
     const [invalid, setInvalid] = useState(false);
-    const [subject, setSubject] = useStyles({})
+    const [subject, setSubject] = useState({})
     const cacheMinute = 5;
     
     function logout() {

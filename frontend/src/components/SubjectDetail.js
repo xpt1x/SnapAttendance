@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
@@ -29,11 +29,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
 function CircularProgressWithLabel(props) {
     const classes = useStyles();
     return (
         <Box className={classes.circular} position="relative" display="inline-flex">
-            <CircularProgress size={200} variant="static"  {...props} />
+            <CircularProgress size={200} variant="static" {...props}/>
             <Box
                 top={0}
                 left={0}
@@ -54,6 +55,7 @@ function CircularProgressWithLabel(props) {
 
 CircularProgressWithLabel.propTypes = {
     value: PropTypes.number.isRequired,
+    color: PropTypes.string.isRequired,
 };
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -67,6 +69,16 @@ function SubjectDetail(props) {
         setOpen(false);
         //props.close();
     };
+
+    const subDetails = []
+    Object.keys(props.subject).forEach(key => {
+        subDetails.push(
+            <Typography key={props.subject['Code']}>
+                {key} : {props.subject[key]}
+            </Typography>
+        )
+    })
+    console.log(subDetails)
     return (
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
             <AppBar className={classes.appBar}>
@@ -79,8 +91,11 @@ function SubjectDetail(props) {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Container maxWidth="sm" fixed className={classes.progressMargin}>
-                <CircularProgressWithLabel value={parseFloat(props.subject['TotalPercentage'])} />
+            <Container fixed className={classes.progressMargin}>
+                <CircularProgressWithLabel value={parseFloat(props.subject['TotalPercentage'])} color={props.subject.colorcode === 'Green' ? 'primary' : 'secondary'}/>
+            </Container>
+            <Container >
+                {subDetails}
             </Container>
         </Dialog>
     )
