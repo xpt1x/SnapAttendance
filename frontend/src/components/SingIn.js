@@ -4,12 +4,15 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import DashBoard from '../components/DashBoard'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {Alert, AlertTitle} from '@material-ui/lab';
+import { Alert, AlertTitle } from '@material-ui/lab'
+
+import MoreInfo from '../components/MoreInfo'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -19,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   avatar: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
@@ -45,12 +48,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
 export default function SignIn(props) {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [invalid, setInvalid] = React.useState(false);
+  const [showInfo, setShowInfo] = React.useState(false)
 
   const classes = useStyles();
+
+  function showMoreInfo() {
+    setShowInfo(true)
+  }
+
+  function hideMoreInfo() {
+    setShowInfo(false)
+  }
 
   function handleClick(event) {
     event.preventDefault();
@@ -88,7 +101,21 @@ export default function SignIn(props) {
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>
-          {invalid ? <Alert className={classes.alert} severity="error">Invalid credentials!</Alert> : ''}
+          {invalid ? 
+              <>
+              <Alert 
+                severity="error" 
+                action={
+                          <Button color="inherit" size="small" onClick={showMoreInfo}>
+                            More info
+                          </Button>
+                        }
+                >
+                Invalid Credentials
+                </Alert>
+                {showInfo ? <MoreInfo onClose={hideMoreInfo} open={showInfo} /> : ''}
+                </> : ''
+          }
           {props.message ? <Alert className={classes.alert} severity="error">prop</Alert>:""}
           <form className={classes.form} noValidate id="signin-form">
             <TextField
@@ -118,6 +145,7 @@ export default function SignIn(props) {
               color="primary"
               className={classes.submit}
               onClick={handleClick}
+              startIcon={<LockOpenIcon />}
             >
               Sign In
           </Button>
