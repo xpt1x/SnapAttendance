@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import DashBoard from '../components/DashBoard'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Alert from '@material-ui/lab/Alert';
+import {Alert, AlertTitle} from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,7 +36,12 @@ const useStyles = makeStyles((theme) => ({
   },
   alert: {
     marginTop: theme.spacing(2)
+  },
+  safeAlert: {
+    display: "flex",
+    justifyContent: "center"
   }
+
 }));
 
 
@@ -118,6 +123,10 @@ export default function SignIn(props) {
           </Button>
           </form>
         </div>
+        <Alert severity="success">
+          <AlertTitle>Your data is safe!</AlertTitle>
+          Your Credentials are Stored Locally
+        </Alert>
       </Container>
     ) : (<div className={classes.spinner}> <CircularProgress /> </div>)
   }

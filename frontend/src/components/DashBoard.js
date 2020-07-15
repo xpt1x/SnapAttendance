@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 
 import Logout from './Logout';
 import SignIn from './SingIn';
+import SubjectDetail from './SubjectDetail';
 
 const useStyles = makeStyles(theme => ({
     title: {
@@ -44,7 +45,7 @@ function CircularProgressWithLabel(props) {
     const classes = useStyles();
     return (
       <Box className={classes.circular} position="relative" display="inline-flex">
-        <CircularProgress size={60} variant="static" {...props} />
+        <CircularProgress size={60} variant="static"  {...props} />
         <Box
           top={0}
           left={0}
@@ -55,9 +56,8 @@ function CircularProgressWithLabel(props) {
           alignItems="center"
           justifyContent="center"
         >
-          <Typography variant="h6" component="div" color="textPrimary">{`${Math.round(
-            props.value,
-          )}`}
+          <Typography variant="h6" component="div" color="textPrimary">
+              {props.value}
           </Typography>
         </Box>
       </Box>
@@ -74,6 +74,7 @@ export default function DashBoard()
     const [loading, setLoading] = useState(false)
     const [loggedIn, setLoggedIn] = useState(true);
     const [invalid, setInvalid] = useState(false);
+    const [subject, setSubject] = useStyles({})
     const cacheMinute = 5;
     
     function logout() {
@@ -82,7 +83,7 @@ export default function DashBoard()
     }
 
     function showSubject(subject){
-        console.log(subject);
+        setSubject(subject);
     }
     useEffect(() => {
         if(loggedIn){
@@ -123,40 +124,41 @@ export default function DashBoard()
 
     if(loggedIn){
         return !loading ? (
-            <>
-                <Logout onClick={logout} />
-                <List component="ul">
-                    {attendance.map(subject => (
-                        <ListItem key={subject.Code}>
-                            <CardActionArea>
-                                <Card className={classes.fullWidth}>
-                                    <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
-                                        <CardContent>
-                                            <Typography variant="h6" gutterBottom>
-                                                {subject.Title}
+            !subject ? (
+                <>
+                    <Logout onClick={logout} />
+                    <List component="ul">
+                        {attendance.map(subject => (
+                            <ListItem key={subject.Code}>
+                                <CardActionArea>
+                                    <Card className={classes.fullWidth} button onClick={() => showSubject(subject)}>
+                                        <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
+                                            <CardContent>
+                                                <Typography variant="h6" gutterBottom>
+                                                    {subject.Title}
+                                                </Typography>
+                                                <CircularProgressWithLabel value={parseInt(subject.TotalPercentage)} />
+                                                <Typography variant="h6" color="textSecondary" className={classes.content}>
+                                                    Total Percentage: {subject.TotalPercentage}
+                                                </Typography>
+                                                <Typography variant="h6" color="textSecondary" className={classes.content}>
+                                                    Total Attended: {subject.Total_Attd}
+                                                </Typography>
+                                                <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
+                                                    Total Delivered: {subject.Total_Delv}
+                                                </Typography>
+                                                <Typography variant="overline" gutterBottom color="textPrimary" className={classes.content}>
+                                                    [{subject.Code}]
                                             </Typography>
-                                            <CircularProgressWithLabel value={parseInt(subject.TotalPercentage)}/>
-                                            <Typography variant="h6" color="textSecondary" className={classes.content}>
-                                                Total Percentage: {subject.TotalPercentage}
-                                            </Typography>
-                                            <Typography variant="h6" color="textSecondary" className={classes.content}>
-                                                Total Attended: {subject.Total_Attd}
-                                            </Typography>
-                                            <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
-                                                Total Delivered: {subject.Total_Delv}
-                                            </Typography>
-                                            <Typography variant="overline" gutterBottom color="textPrimary" className={classes.content}>
-                                                [{subject.Code}]
-                                            </Typography>
-                                            
-                                        </CardContent>
-                                    </Box>
-                                </Card>
-                            </CardActionArea>
-                        </ListItem>
-                    ))}
-                </List>
-            </>
+                                            </CardContent>
+                                        </Box>
+                                    </Card>
+                                </CardActionArea>
+                            </ListItem>
+                        ))}
+                    </List>
+                </>
+            ):<SubjectDetail subject={subject} close={setSubject}/>
         ) : (<div className={classes.spinner}> <CircularProgress /> </div>)
     }
     else
