@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import SignIn from './components/SignIn'
@@ -58,6 +58,7 @@ class App extends Component {
     return(
       (this.globalTheme)?(
         <MuiThemeProvider theme={this.globalTheme}>
+          <CssBaseline />
           {
             (localStorage.getItem('uid')) ? <DashBoard changeTheme={this.changeTheme} /> : <SignIn />
           }

@@ -101,7 +101,7 @@ export default function DashBoard(props)
     const cacheMinute = 5;
     
     function logout() {
-        localStorage.clear();
+        localStorage.removeItem('uid')
         setLoggedIn(false);
     }
 

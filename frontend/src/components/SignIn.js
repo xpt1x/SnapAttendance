@@ -8,12 +8,12 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import DashBoard from '../components/DashBoard'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Alert, AlertTitle } from '@material-ui/lab'
 import Link from '@material-ui/core/Link';
 
 import MoreInfo from '../components/MoreInfo'
+import App from '../App'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -176,7 +176,7 @@ export default function SignIn(props) {
     </>) : (<div className={classes.spinner}> <CircularProgress /> </div>)
   }
   else{
-    return (<DashBoard />)
+    return (<App />)
   }
 
 }
