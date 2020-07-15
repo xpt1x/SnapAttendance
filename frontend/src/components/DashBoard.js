@@ -110,6 +110,17 @@ export default function DashBoard(props)
         // console.log(subject)
         setSubject(subject);
     }
+
+    function compareTitles(a, b)
+    {
+        if(a.Title < b.Title)
+            return -1
+        else if(a.Title > b.Title)
+            return 1
+        else
+            return 0
+    }
+
     useEffect(() => {
         if(loggedIn){
             if (localStorage.getItem('attendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute)) {
@@ -169,10 +180,10 @@ export default function DashBoard(props)
                         </Toolbar>
                     </AppBar>
                     <List component="ul" style={{ top: '60px' }}>
-                        {attendance.map(subject => (
+                        {attendance.sort(compareTitles).map(subject => (
                             <ListItem key={subject.Code}>
                                 <CardActionArea>
-                                    <Card className={classes.fullWidth} onClick={() => showSubject(subject)} /*variant="outlined"*/ elevation={10}>
+                                    <Card className={classes.fullWidth} onClick={() => showSubject(subject)} elevation={10}>
                                         <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
                                             <CardContent>
                                                 <Typography variant="h6" gutterBottom>
