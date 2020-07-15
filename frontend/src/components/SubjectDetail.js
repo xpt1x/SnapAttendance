@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
@@ -31,15 +31,27 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
 }));
 
+const circularProgressTheme = createMuiTheme({
+    palette: {
+        primary:{
+            main: '#34bf58'
+        },
+        secondary:{
+            main: '#e05151'
+        }
+    }
+})
 
 function CircularProgressWithLabel(props) {
     const classes = useStyles();
     return (
         <Box className={classes.circular} position="relative" display="inline-flex">
-            <CircularProgress size={200} variant="static" {...props}/>
+            <ThemeProvider theme={circularProgressTheme}>
+                <CircularProgress size={200} variant="static" color={props.subject['colorcode'] === 'Green'? 'primary': 'secondary'} {...props} />
+            </ThemeProvider>
             <Box
                 top={0}
                 left={0}
@@ -50,17 +62,23 @@ function CircularProgressWithLabel(props) {
                 alignItems="center"
                 justifyContent="center"
             >
-                <Typography variant="h4" component="div" color="textPrimary">
-                    {props.value + "%"}
-                </Typography>
+                <Container style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                    <Typography variant="h4" component="div" color="textPrimary">
+                        {props.value + "%"}
+                    </Typography>
+
+                    <Typography variant="h6" component="div" color="textSecondary">
+                        {props.subject['Total_Attd']}/{props.subject['Total_Delv']}
+                    </Typography>
+                </Container>
             </Box>
         </Box>
     );
 }
 
+
 CircularProgressWithLabel.propTypes = {
     value: PropTypes.number.isRequired,
-    color: PropTypes.string.isRequired,
 };
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -88,7 +106,7 @@ function SubjectDetail(props) {
                 </Toolbar>
             </AppBar>
             <Container fixed className={classes.progressMargin}>
-                <CircularProgressWithLabel value={parseFloat(props.subject['TotalPercentage'])} color={props.subject.colorcode === 'Green' ? 'primary' : 'secondary'}/>
+                <CircularProgressWithLabel value={parseFloat(props.subject['TotalPercentage'])} subject={props.subject}/>
             </Container>
             <List>
                 <ListItem   >
