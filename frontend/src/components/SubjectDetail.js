@@ -69,7 +69,7 @@ function CircularProgressWithLabel(props) {
                     </Typography>
 
                     <Typography variant="h6" component="div" color="textSecondary">
-                        {props.subject['Total_Attd']}/{props.subject['Total_Delv']}
+                        {props.subject.EligibilityAttended}/{props.subject.EligibilityDelivered}
                     </Typography>
                 </Container>
             </Box>
@@ -94,6 +94,22 @@ function SubjectDetail(props) {
         props.close({});
     };
 
+    function calcuteLectures(props, req)
+    {
+        req = req/100
+        let att = props.subject.EligibilityAttended
+        let del = props.subject.EligibilityDelivered
+        if(del === 0 || (att/del >= req))
+            return 'NA'
+        else {
+            let lecs
+            for (lecs = 0; (att/del) < req; lecs++) {
+                att++;del++;
+            }
+            return `${lecs} lectures more`
+        }
+    }
+
     return (
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
             <AppBar position="fixed">
@@ -102,46 +118,61 @@ function SubjectDetail(props) {
                         <CloseIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        {props.subject['Title']}
+                        {props.subject['Title']} 
                     </Typography>
                 </Toolbar>
             </AppBar>
             <Container fixed className={classes.progressMargin}>
-                <CircularProgressWithLabel value={parseFloat(props.subject['TotalPercentage'])} subject={props.subject}/>
+                <CircularProgressWithLabel value={parseFloat(props.subject.EligibilityPercentage)} subject={props.subject}/>
             </Container>
             <List>
                 <ListItem>
-                    <ListItemText disableTypography primary={<><Typography variant='button'>Total Delivered</Typography><Typography className={classes.secondary} variant='inherit'>{props.subject.Total_Delv}</Typography></>} />
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Required to hit 75%</Typography><Typography className={classes.secondary} variant='inherit'>{calcuteLectures(props, 75)}</Typography></>} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                    <ListItemText disableTypography primary={<><Typography variant='button'>Total Attended</Typography><Typography className={classes.secondary} variant='inherit'>{props.subject.Total_Attd}</Typography></>} />
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Required to hit 80%</Typography><Typography className={classes.secondary} variant='inherit'>{calcuteLectures(props, 80)}</Typography></>} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                    <ListItemText disableTypography primary={<><Typography variant='button'>Duty Leave N P</Typography><Typography className={classes.secondary} variant='inherit'>{props.subject.DutyLeave_N_P}</Typography></>} />
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Required to hit 90%</Typography><Typography className={classes.secondary} variant='inherit'>{calcuteLectures(props, 90)}</Typography></>} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                    <ListItemText disableTypography primary={<><Typography variant='button'>Duty Leave Others</Typography><Typography className={classes.secondary} variant='inherit'>{props.subject.DutyLeave_Others}</Typography></>} />
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Total Delivered</Typography><Typography className={classes.secondary} color='textSecondary' variant='inherit'>{props.subject.Total_Delv}</Typography></>} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                    <ListItemText disableTypography primary={<><Typography variant='button'>Medical Leave</Typography><Typography className={classes.secondary} variant='inherit'>{props.subject.MedicalLeave}</Typography></>} />
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Total Attended</Typography><Typography className={classes.secondary} color='textSecondary' variant='inherit'>{props.subject.Total_Attd}</Typography></>} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                    <ListItemText disableTypography primary={<><Typography variant='button'>Eligible Delivered</Typography><Typography className={classes.secondary} variant='inherit'>{props.subject.EligibilityDelivered}</Typography></>} />
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Duty Leave N P</Typography><Typography className={classes.secondary} color='textSecondary' variant='inherit'>{props.subject.DutyLeave_N_P}</Typography></>} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                    <ListItemText disableTypography primary={<><Typography variant='button'>Eligible Attended</Typography><Typography className={classes.secondary} variant='inherit'>{props.subject.EligibilityAttended}</Typography></>} />
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Duty Leave Others</Typography><Typography className={classes.secondary} color='textSecondary' variant='inherit'>{props.subject.DutyLeave_Others}</Typography></>} />
                 </ListItem>
                 <Divider />
                 <ListItem>
-                    <ListItemText disableTypography primary={<><Typography variant='button'>Eligible Percentage</Typography><Typography className={classes.secondary} variant='inherit'>{props.subject.EligibilityPercentage}</Typography></>} />
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Medical Leave</Typography><Typography className={classes.secondary} color='textSecondary' variant='inherit'>{props.subject.MedicalLeave}</Typography></>} />
                 </ListItem>
                 <Divider />
+                <ListItem>
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Eligible Delivered</Typography><Typography className={classes.secondary} color='textSecondary' variant='inherit'>{props.subject.EligibilityDelivered}</Typography></>} />
+                </ListItem>
+                <Divider />
+                <ListItem>
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Eligible Attended</Typography><Typography className={classes.secondary} color='textSecondary' variant='inherit'>{props.subject.EligibilityAttended}</Typography></>} />
+                </ListItem>
+                <Divider />
+                <ListItem>
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Total Percentage</Typography><Typography className={classes.secondary} color='textSecondary' variant='inherit'>{props.subject.Total_Perc}</Typography></>} />
+                </ListItem>
+                <Divider />
+                <ListItem>
+                    <ListItemText primary='Subject Code' secondary={props.subject.Code} />
+                </ListItem>
             </List>
         </Dialog>
     )

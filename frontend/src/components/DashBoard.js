@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     },
     circular: {
         position: 'absolute',
-        top: '50%',
+        top: '55%',
         right: '3%',
         transform: 'translateY(-50%)'
     },
@@ -164,7 +164,7 @@ export default function DashBoard()
                                                 <Typography variant="h6" gutterBottom>
                                                     {subject.Title}
                                                 </Typography>
-                                                <CircularProgressWithLabel value={parseFloat(subject.TotalPercentage)} color={subject.colorcode === 'Green' ? 'primary' : 'secondary'} />
+                                                <CircularProgressWithLabel value={parseFloat(subject.EligibilityPercentage)} color={subject.colorcode === 'Green' ? 'primary' : 'secondary'} />
                                                 <Typography variant="h6" color="textSecondary" className={classes.content}>
                                                     Total Attended: {subject.Total_Attd}
                                                 </Typography>
