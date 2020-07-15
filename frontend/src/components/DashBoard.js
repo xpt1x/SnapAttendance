@@ -83,6 +83,7 @@ export default function DashBoard()
     }
 
     function showSubject(subject){
+        // console.log(subject)
         setSubject(subject);
     }
     useEffect(() => {
@@ -124,7 +125,7 @@ export default function DashBoard()
 
     if(loggedIn){
         return !loading ? (
-            !subject ? (
+            (!Object.keys(subject).length) ? (
                 <>
                     <Logout onClick={logout} />
                     <List component="ul">

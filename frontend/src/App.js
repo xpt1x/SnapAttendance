@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import SignIn from './components/SignIn'
 import DashBoard from './components/DashBoard';
-import SubjectDetail from './components/SubjectDetail';
-import data from './response/response.json';
 
 class App extends Component {
   constructor(props) {
@@ -17,8 +15,7 @@ class App extends Component {
     }
     return (
       <>
-        <SignIn />
-        <SubjectDetail subject={data[0]} />
+        <SingIn />
       </>
     )
   }
