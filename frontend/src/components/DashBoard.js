@@ -37,7 +37,8 @@ const useStyles = makeStyles(theme => ({
         fontSize: 12
     },
     fullWidth: {
-        width: "100%"
+        width: "100%",
+        marginBottom: theme.spacing(2)
     },
     spinner: {
         display: 'flex',
@@ -52,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     },
     circular: {
         position: 'absolute',
-        top: '55%',
+        top: '50%',
         right: '3%',
         transform: 'translateY(-50%)'
     },
@@ -149,7 +150,7 @@ export default function DashBoard()
                     <AppBar position="fixed">
                         <Toolbar>
                             <AccountCircleIcon style={{marginRight: '7px'}} fontSize='small' />
-                            <Typography variant=''><strong>{Object(attendance[0])['name']}</strong> ({Object(attendance[0])['UId']})</Typography>
+                            <Typography><strong>{Object(attendance[0])['name']}</strong> ({Object(attendance[0])['UId']})</Typography>
                             <Logout onClick={logout} />
                         </Toolbar>
                     </AppBar>
@@ -157,7 +158,7 @@ export default function DashBoard()
                         {attendance.map(subject => (
                             <ListItem key={subject.Code}>
                                 <CardActionArea>
-                                    <Card className={classes.fullWidth} onClick={() => showSubject(subject)} variant="outlined">
+                                    <Card className={classes.fullWidth} onClick={() => showSubject(subject)} /*variant="outlined"*/ elevation={10}>
                                         <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
                                             <CardContent>
                                                 <Typography variant="h6" gutterBottom>
