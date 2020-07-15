@@ -62,7 +62,7 @@ function CircularProgressWithLabel(props) {
     return (
       <Box className={classes.circular} position="relative" display="inline-flex">
         <ThemeProvider theme={circularProgressTheme} >
-        <   CircularProgress size={100} variant="static"  {...props} />
+        <CircularProgress size={80} variant="static"  {...props} />
         </ThemeProvider>
         <Box
           top={0}
@@ -162,6 +162,12 @@ export default function DashBoard()
                                                     {subject.Title}
                                                 </Typography>
                                                 <CircularProgressWithLabel value={parseFloat(subject.TotalPercentage)} color={subject.colorcode === 'Green' ? 'primary' : 'secondary'} />
+<<<<<<< HEAD
+=======
+                                                {/* <Typography variant="h6" color="textSecondary" className={classes.content}>
+                                                    Total Percentage: {subject.TotalPercentage}
+                                                </Typography> */}
+>>>>>>> 59fdd15fbecdaefde53c8b6d54d86390cb9bd2e8
                                                 <Typography variant="h6" color="textSecondary" className={classes.content}>
                                                     Total Attended: {subject.Total_Attd}
                                                 </Typography>
