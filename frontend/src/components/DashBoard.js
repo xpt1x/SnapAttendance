@@ -8,11 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
+
 
 import PropTypes from 'prop-types';
 
@@ -153,12 +154,17 @@ export default function DashBoard(props)
                 <>
                     <AppBar position="fixed">
                         <Toolbar>
-                            <AccountCircleIcon style={{ marginRight: '7px' }} fontSize='small' />
-                            <Typography><strong>{Object(attendance[0])['name']}</strong> ({Object(attendance[0])['UId']})</Typography>
-                                <IconButton onClick={props.changeTheme}>
-                                <Brightness4Icon style={{ color: '#fff' }} />
-                            </IconButton>
-                            <Logout onClick={logout} />
+                            <Grid justify="space-between" container>
+                                <Grid item>
+                                    <Typography type='title' style={{marginTop: '5%'}}><strong>{Object(attendance[0])['name']}</strong> ({Object(attendance[0])['UId']})</Typography>
+                                </Grid>
+                                <Grid item>
+                                    <IconButton onClick={props.changeTheme}>
+                                        <Brightness4Icon style={{ color: '#fff' }} />
+                                    </IconButton>
+                                    <Logout onClick={logout} />
+                                </Grid>
+                            </Grid>
                         </Toolbar>
                     </AppBar>
                     <List component="ul" style={{ top: '60px' }}>
@@ -180,7 +186,7 @@ export default function DashBoard(props)
                                                 </Typography>
                                                 <Typography variant="overline" gutterBottom color="textPrimary" className={classes.content}>
                                                     [{subject.Code}]
-                                                            </Typography>
+                                                </Typography>
                                             </CardContent>
                                         </Box>
                                     </Card>

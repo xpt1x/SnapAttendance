@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import SignIn from './components/SignIn'
 import DashBoard from './components/DashBoard';
-import {ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import {createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 class App extends Component {
   constructor(props) {
@@ -56,11 +57,11 @@ class App extends Component {
   render() {
     return(
       (this.globalTheme)?(
-        <ThemeProvider theme={this.globalTheme}>
+        <MuiThemeProvider theme={this.globalTheme}>
           {
             (localStorage.getItem('uid')) ? <DashBoard changeTheme={this.changeTheme} /> : <SignIn />
           }
-        </ThemeProvider>
+        </MuiThemeProvider>
       ):((localStorage.getItem('uid')) ? <DashBoard changeTheme={this.changeTheme} /> : <SignIn />)
     )
   }

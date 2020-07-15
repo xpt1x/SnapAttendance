@@ -1,16 +1,17 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import DashBoard from '../components/DashBoard'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Alert, AlertTitle } from '@material-ui/lab'
+import Link from '@material-ui/core/Link';
 
 import MoreInfo from '../components/MoreInfo'
 
@@ -43,8 +44,7 @@ const useStyles = makeStyles((theme) => ({
   safeAlert: {
     display: "flex",
     justifyContent: "center"
-  }
-
+  },
 }));
 
 
@@ -90,10 +90,26 @@ export default function SignIn(props) {
     })
   }
 
+  function Credits() {
+    return (
+      <Typography style={{marginTop: '20%', textAlign: 'right'}} variant="body2" color="textSecondary" align="center">
+        {'Created with'} <FavoriteIcon fontSize={"inherit"} /> {'by '}<strong>{'Jatin, Swarnim'}</strong><br/><br/>
+        {'SnapAttendance is an '}
+        <Link color="inherit" href="https://github.com/xpt1x/SnapAttendance/">
+          OpenSource Project
+        </Link><br/>
+        {'Powered by '}
+        <Link color="inherit" href="https://github.com/cu-unofficial/uims-api">
+          UIMS-API
+        </Link>
+      </Typography>
+    );
+  }
+
   if(!loggedIn){
     return !loading ? (
+      <>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -155,8 +171,9 @@ export default function SignIn(props) {
           <AlertTitle>Your data is safe!</AlertTitle>
           Your Credentials are Stored Locally
         </Alert>
+        <Credits />
       </Container>
-    ) : (<div className={classes.spinner}> <CircularProgress /> </div>)
+    </>) : (<div className={classes.spinner}> <CircularProgress /> </div>)
   }
   else{
     return (<DashBoard />)
