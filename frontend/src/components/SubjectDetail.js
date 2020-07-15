@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
         flex: 1,
     },
     progressMargin: {
-        marginTop: theme.spacing(10),
+        marginTop: theme.spacing(15),
         marginBottom: theme.spacing(5),
         display: 'flex',
         justifyContent: 'center',
