@@ -132,7 +132,7 @@ export default function DashBoard()
                         {attendance.map(subject => (
                             <ListItem key={subject.Code}>
                                 <CardActionArea>
-                                    <Card className={classes.fullWidth} button onClick={() => showSubject(subject)}>
+                                    <Card className={classes.fullWidth} onClick={() => showSubject(subject)}>
                                         <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
                                             <CardContent>
                                                 <Typography variant="h6" gutterBottom>
