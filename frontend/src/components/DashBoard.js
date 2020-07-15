@@ -102,6 +102,7 @@ export default function DashBoard(props)
     
     function logout() {
         localStorage.removeItem('uid')
+        localStorage.removeItem('password')
         setLoggedIn(false);
     }
 

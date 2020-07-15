@@ -96,7 +96,6 @@ function SubjectDetail(props) {
 
     function calcuteLectures(props, req)
     {
-        //req = req/100
         let att = props.subject.EligibilityAttended
         let del = props.subject.EligibilityDelivered
         if(del === 0 || (att/del >= req/100))

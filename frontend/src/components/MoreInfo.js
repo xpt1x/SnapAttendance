@@ -6,6 +6,7 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
 const styles = (theme) => ({
   root: {
@@ -17,7 +18,7 @@ const styles = (theme) => ({
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
-  },
+  }
 });
 
 const DialogTitle = withStyles(styles)((props) => {
@@ -46,13 +47,17 @@ export default function MoreInfo(props) {
     <div>
       <Dialog onClose={props.onClose} aria-labelledby="customized-dialog-title" open={props.open}>
         <DialogTitle id="customized-dialog-title" onClose={props.onClose}>
-          More Info
+          Reasons behind INVALID Credentials
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            Invalid credentials error on login screen simply depicts that there exists a barrier 
+            You may have entered wrong UID or password
+          </Typography>
+          <Typography gutterBottom>
+            Sometimes invalid creds also depicts that there exists a barrier 
             in fetching your attendance from UIMS, please visit UIMS to resolve it first.
           </Typography>
+          <Divider style={{marginTop: '2%', marginBottom: '2%'}} />
           <Typography gutterBottom>
             This application is completely dependent on UIMS, during events they block attendance
             module, at that time you can face INVALID CREDS error too.
