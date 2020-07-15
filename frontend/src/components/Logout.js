@@ -4,8 +4,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 function Logout(props) {
     return (
-        <IconButton onClick={props.onClick}>
-            <ExitToAppIcon/>
+        <IconButton onClick={props.onClick} style={{marginLeft: 'auto'}}>
+            <ExitToAppIcon style={{color: '#fff'}}/>
         </IconButton>
     )
 }

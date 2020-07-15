@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+
 import PropTypes from 'prop-types';
 
 import Logout from './Logout';
@@ -36,8 +39,10 @@ const useStyles = makeStyles(theme => ({
         borderColor: '#e05151'
     },
     circular: {
-        float: "right",
-        marginRight: '1%'
+        position: 'absolute',
+        top: '50%',
+        right: '3%',
+        transform: 'translateY(-50%)'
     },
 }))
 
@@ -45,7 +50,7 @@ function CircularProgressWithLabel(props) {
     const classes = useStyles();
     return (
       <Box className={classes.circular} position="relative" display="inline-flex">
-        <CircularProgress size={60} variant="static"  {...props} />
+        <CircularProgress size={100} variant="static"  {...props} />
         <Box
           top={0}
           left={0}
@@ -127,8 +132,13 @@ export default function DashBoard()
         return !loading ? (
             (!Object.keys(subject).length) ? (
                 <>
-                    <Logout onClick={logout} />
-                    <List component="ul">
+                    <AppBar position="fixed">
+                        <Toolbar>
+                            <Typography><strong>{Object(attendance[0])['name']}</strong> ({Object(attendance[0])['UId']})</Typography>
+                            <Logout onClick={logout} />
+                        </Toolbar>
+                    </AppBar>
+                    <List component="ul" style={{top: '60px'}}>
                         {attendance.map(subject => (
                             <ListItem key={subject.Code}>
                                 <CardActionArea>
