@@ -42,12 +42,6 @@ def server_error(e):
     See logs for full stacktrace.
     """.format(e), 500
 
-@app.before_request
-def BeforeRequest():
-    if not request.is_secure and app.env != "DEVELOPMENT":
-        url = request.url.replace("http://", "https://", 1)
-        return redirect(url, code=301)
-
 if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     # application on Google App Engine. See entrypoint in app.yaml.
