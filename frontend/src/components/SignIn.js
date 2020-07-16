@@ -53,7 +53,8 @@ export default function SignIn(props) {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [invalid, setInvalid] = React.useState(false);
-  const [showInfo, setShowInfo] = React.useState(false)
+  const [showInfo, setShowInfo] = React.useState(false);
+  const [conn, setConn] = React.useState(true);
 
   const classes = useStyles();
 
@@ -72,21 +73,30 @@ export default function SignIn(props) {
     const uid = document.getElementById('uid').value
     const pass = document.getElementById('password').value
 
-    fetch('http://localhost:5000/api', {
-      method: 'POST',
-      body: new URLSearchParams(new FormData(form))
-    }).then(data => data.json()).then(data => {
-      setLoading(false)
-      if (!data.error) {
-        localStorage.setItem('uid', uid)
-        localStorage.setItem('password', pass)
-        localStorage.setItem('attendance', JSON.stringify(data))
-        localStorage.setItem('timestamp', Date.now())
-        setLoggedIn(true);
-      }
-      else
-        setInvalid(true)
-    })
+    try{
+      fetch('/api', {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(form))
+      }).then(data => data.json()).then(data => {
+        setLoading(false)
+        if (!data.error) {
+          localStorage.setItem('uid', uid)
+          localStorage.setItem('password', pass)
+          localStorage.setItem('attendance', JSON.stringify(data))
+          localStorage.setItem('timestamp', Date.now())
+          setLoggedIn(true);
+        }
+        else
+          setInvalid(true)
+      }).catch(err => {
+        console.log(err)
+        setLoading(false)
+        setConn(false)
+      })
+    }
+    catch(e){
+      console.log(e)
+    }
   }
 
   function Credits() {
@@ -131,7 +141,8 @@ export default function SignIn(props) {
                 {showInfo ? <MoreInfo onClose={hideMoreInfo} open={showInfo} /> : ''}
                 </> : ''
           }
-          {props.message ? <Alert className={classes.alert} severity="error">prop</Alert>:""}
+          {props.message ? <Alert className={classes.alert} severity="error">{props.message}</Alert>:""}
+          {!conn ? <Alert className={classes.alert} severity="error">Network Error</Alert>:""}
           <form className={classes.form} noValidate id="signin-form">
             <TextField
               margin="normal"

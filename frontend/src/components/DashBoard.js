@@ -13,6 +13,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
+import Alert from '@material-ui/lab/Alert';
 
 
 import PropTypes from 'prop-types';
@@ -132,25 +133,46 @@ export default function DashBoard(props)
                 formdata.append('uid', localStorage.getItem('uid'))
                 formdata.append('password', localStorage.getItem('password'))
                 setLoading(true)
-                fetch('http://localhost:5000/api', {
-                    method: 'POST',
-                    body: formdata
-                }).then(data => data.json()).then(data => {
+                try{
+                    fetch('/api', {
+                        method: 'POST',
+                        body: formdata
+                    }).then(data => data.json()).then(data => {
 
-                    if (data.error){
-                        console.log('Looks like your UIMS password is changed!')
-                        setInvalid(true);
-                        logout();
-                    }                       
+                        if (data.error) {
+                            console.log('Looks like your UIMS password is changed!')
+                            setInvalid(true);
+                            logout();
+                        }
 
-                    else {
-                        setLoading(false)
-                        setAttendance(data)
+                        else {
+                            setLoading(false)
+                            setAttendance(data)
 
-                        localStorage.setItem('attendance', JSON.stringify(data))
-                        localStorage.setItem('timestamp', Date.now())
+                            localStorage.setItem('attendance', JSON.stringify(data))
+                            localStorage.setItem('timestamp', Date.now())
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                        setLoading(false);
+                        if(localStorage.getItem('attendance')){
+                            setAttendance(JSON.parse(localStorage.getItem('attendance')))
+                        }
+                        else{
+                            logout()
+                        }
+                    })
+                }
+                catch (e) {
+                    console.log(e)
+                    setLoading(false);
+                    if (localStorage.getItem('attendance')) {
+                        setAttendance(JSON.parse(localStorage.getItem('attendance')))
                     }
-                })
+                    else {
+                        logout()
+                    }
+                }
             }
         }
     }, [loggedIn])  
