@@ -125,3 +125,4 @@ venv.bak/
 dmypy.json
 
 uims_api/__pycache__/
+node_modules/
