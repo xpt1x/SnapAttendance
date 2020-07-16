@@ -44,7 +44,6 @@ def server_error(e):
 
 @app.before_request
 def BeforeRequest():
-    session.permanent = True
     if not request.is_secure and app.env != "DEVELOPMENT":
         url = request.url.replace("http://", "https://", 1)
         return redirect(url, code=301)
