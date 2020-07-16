@@ -1,2 +1,3 @@
-# SnapAttendance
-Test repository will be delete later
+# Snap Attendance
+
+Snap Attendance is build with 
