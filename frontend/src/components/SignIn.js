@@ -104,10 +104,10 @@ export default function SignIn(props) {
       <Typography style={{marginTop: '20%', textAlign: 'right'}} variant="body2" color="textSecondary" align="center">
         {'Created with'} <FavoriteIcon fontSize={"inherit"} /> {'by '}<br />
         <strong>
-        <Link color="inherit" href="https://github.com/xpt1x/SnapAttendance/">
+        <Link color="inherit" href="https://github.com/xpt1x">
           Jatin Sarda
         </Link><br/>
-        <Link color="inherit" href="https://github.com/xpt1x/SnapAttendance/">
+        <Link color="inherit" href="https://github.com/SwarnimDoegar">
           Swarnim Doegar
         </Link><br/>
         </strong><br/>
