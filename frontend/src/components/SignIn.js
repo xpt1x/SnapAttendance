@@ -92,14 +92,22 @@ export default function SignIn(props) {
   function Credits() {
     return (
       <Typography style={{marginTop: '20%', textAlign: 'right'}} variant="body2" color="textSecondary" align="center">
-        {'Created with'} <FavoriteIcon fontSize={"inherit"} /> {'by '}<strong>{'Jatin, Swarnim'}</strong><br/><br/>
+        {'Created with'} <FavoriteIcon fontSize={"inherit"} /> {'by '}<br />
+        <strong>
+        <Link color="inherit" href="https://github.com/xpt1x/SnapAttendance/">
+          Jatin Sarda
+        </Link><br/>
+        <Link color="inherit" href="https://github.com/xpt1x/SnapAttendance/">
+          Swarnim Doegar
+        </Link><br/>
+        </strong><br/>
         {'SnapAttendance is an '}
         <Link color="inherit" href="https://github.com/xpt1x/SnapAttendance/">
           OpenSource Project
         </Link><br/>
         {'Powered by '}
         <Link color="inherit" href="https://github.com/cu-unofficial/uims-api">
-          UIMS-API
+          uims-api
         </Link>
       </Typography>
     );

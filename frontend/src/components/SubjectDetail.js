@@ -131,6 +131,10 @@ function SubjectDetail(props) {
                 </ListItem>
                 <Divider />
                 <ListItem>
+                    <ListItemText disableTypography primary={<><Typography variant='button'>Required to hit 85%</Typography><Typography className={classes.secondary} variant='inherit'>{calcuteLectures(props, 85)}</Typography></>} />
+                </ListItem>
+                <Divider />
+                <ListItem>
                     <ListItemText disableTypography primary={<><Typography variant='button'>Required to hit 90%</Typography><Typography className={classes.secondary} variant='inherit'>{calcuteLectures(props, 90)}</Typography></>} />
                 </ListItem>
                 <Divider />
