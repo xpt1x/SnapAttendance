@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect
+from flask import Flask, render_template, request, jsonify, redirect, send_from_directory
 from flask_cors import CORS
 from uims_api import SessionUIMS
 import logging
@@ -8,10 +8,15 @@ app = Flask(__name__, template_folder='frontend/build',
             static_folder='frontend/build/static')
 CORS(app)
 
+print(app.root_path)
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
+@app.route('/<path:filename>')
+def base_static(filename):
+    return send_from_directory(app.root_path + '/frontend/build/', filename)
 
 @app.route('/api', methods=['POST'])
 def get_data():
