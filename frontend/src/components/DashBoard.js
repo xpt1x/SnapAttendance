@@ -98,7 +98,7 @@ export default function DashBoard(props)
     const [loggedIn, setLoggedIn] = useState(true);
     const [invalid, setInvalid] = useState(false);
     const [subject, setSubject] = useState({});
-    const cacheMinute = 5;
+    const cacheMinute = 10;
     
     function logout() {
         localStorage.removeItem('uid')
