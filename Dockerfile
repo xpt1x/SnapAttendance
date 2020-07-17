@@ -11,5 +11,8 @@ RUN pip install -e .
 # Open port 80 for serving the webpage
 EXPOSE 80
 
-# Run app.py when the container launches
-CMD ["python", "application.py"]
+# Run gunicorn server
+CMD ["gunicorn"  , "-b", "0.0.0.0:80", "application:app"]
+
+
+
