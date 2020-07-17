@@ -8,7 +8,6 @@ app = Flask(__name__, template_folder='frontend/build',
             static_folder='frontend/build/static')
 CORS(app)
 
-print(app.root_path)
 @app.route('/')
 def index():
     return render_template('index.html')
