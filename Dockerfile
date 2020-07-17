@@ -6,6 +6,7 @@ ADD . /SnapAttendance
 
 # Install any necessary dependencies
 RUN pip install -r requirements.txt
+RUN pip install -e .
 
 # Open port 80 for serving the webpage
 EXPOSE 80
