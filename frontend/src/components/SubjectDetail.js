@@ -102,7 +102,7 @@ function SubjectDetail(props) {
             return 'NA'
         else {
             let lecs = ((req*del) - (100 * att))/(100-req);
-            return `${lecs} lectures more`
+            return `${Math.ceil(lecs)} lectures more`
         }
     }
 
