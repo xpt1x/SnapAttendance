@@ -79,6 +79,10 @@ class SessionUIMS:
         # These cookies contain encoded information about the current logged in UID whose
         # attendance information is to be fetched
         response = requests.get(attendance_url, cookies=self.cookies)
+        session_block = response.text.find('CurrentSession')
+        session_block_origin = session_block + response.text[session_block:].find('(')
+        session_block_end = session_block + response.text[session_block:].find(')')
+        current_session_id = response.text[session_block_origin+1:session_block_end]
 
         # We now scrape for the uniquely generated report ID for the current UIMS session
         # in the above returned response
@@ -87,12 +91,9 @@ class SessionUIMS:
         # fetch the attendance in JSON format in the next step as you'll see, otherwise the
         # server will return an error response
         js_report_block = response.text.find("getReport")
-        initial_quotation_mark = js_report_block + \
-            response.text[js_report_block:].find("'")
-        ending_quotation_mark = initial_quotation_mark + \
-            response.text[initial_quotation_mark+1:].find("'")
-        report_id = response.text[initial_quotation_mark +
-                                  1: ending_quotation_mark+1]
+        initial_quotation_mark = js_report_block + response.text[js_report_block:].find ("'")
+        ending_quotation_mark = initial_quotation_mark + response.text[initial_quotation_mark+1:].find("'")
+        report_id = response.text[initial_quotation_mark+1 : ending_quotation_mark+1]
 
         # On intercepting the requests made by my browser, I found that this URL returns the
         # attendance information in JSON format
@@ -102,9 +103,8 @@ class SessionUIMS:
         # to replicate the web-browser intercepted request using python requests by passing
         # the following fields
         headers = {'Content-Type': 'application/json'}
-        data = "{UID:'" + report_id + "',Session:'19202'}"
+        data = "{UID:'" + report_id + "',Session:'" + current_session_id + "'}"
         response = requests.post(report_url, headers=headers, data=data)
-
         # We then return the extracted JSON content
         attendance = json.loads(response.text)["d"]
         return json.loads(attendance)
