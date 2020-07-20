@@ -96,8 +96,9 @@ function SubjectDetail(props) {
 
     function calcuteLectures(props, req)
     {
-        let att = props.subject.EligibilityAttended
-        let del = props.subject.EligibilityDelivered
+        let att = parseInt( props.subject.EligibilityAttended )
+        let del = parseInt( props.subject.EligibilityDelivered )
+        
         if(del === 0 || (att/del >= req/100))
             return 'NA'
         else {
