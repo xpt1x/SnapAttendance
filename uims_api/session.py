@@ -2,11 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
+from .exceptions import IncorrectCredentialsError, UIMSInternalError
+
 BASE_URL = "https://uims.cuchd.in"
 AUTHENTICATE_URL = BASE_URL + "/uims/"
 
 ENDPOINTS = {"Attendance": "frmStudentCourseWiseAttendanceSummary.aspx"}
-
+ERROR_HEAD = 'Whoops, Something broke!'
 
 class SessionUIMS:
     def __init__(self, uid, password):
@@ -14,13 +16,13 @@ class SessionUIMS:
         self._password = password
         self.cookies = None
         self.refresh_session()
-        self.isvalid = True
+
         self._attendance = None
 
     def _login(self):
         response = requests.get(AUTHENTICATE_URL)
         soup = BeautifulSoup(response.text, "html.parser")
-        viewstate_tag = soup.find("input", {"name": "__VIEWSTATE"})
+        viewstate_tag = soup.find("input", {"name":"__VIEWSTATE"})
 
         data = {"__VIEWSTATE": viewstate_tag["value"],
                 "txtUserId": self._uid,
@@ -37,7 +39,7 @@ class SessionUIMS:
         response = requests.get(password_url, cookies=response.cookies)
         login_cookies = response.cookies
         soup = BeautifulSoup(response.text, "html.parser")
-        viewstate_tag = soup.find("input", {"name": "__VIEWSTATE"})
+        viewstate_tag = soup.find("input", {"name":"__VIEWSTATE"})
 
         data = {"__VIEWSTATE": viewstate_tag["value"],
                 "txtLoginPassword": self._password,
@@ -48,15 +50,13 @@ class SessionUIMS:
                                  cookies=response.cookies,
                                  allow_redirects=False)
 
-        print(response.status_code)
         incorrect_credentials = response.status_code == 200
         if incorrect_credentials:
-            self.isvalid = False
+            raise IncorrectCredentialsError("Make sure UID and Password are correct.")
 
         aspnet_session_cookies = response.cookies
 
-        login_and_aspnet_session_cookies = requests.cookies.merge_cookies(
-            login_cookies, aspnet_session_cookies)
+        login_and_aspnet_session_cookies = requests.cookies.merge_cookies(login_cookies, aspnet_session_cookies)
         return login_and_aspnet_session_cookies
 
     def refresh_session(self):
@@ -79,6 +79,10 @@ class SessionUIMS:
         # These cookies contain encoded information about the current logged in UID whose
         # attendance information is to be fetched
         response = requests.get(attendance_url, cookies=self.cookies)
+        # Checking for error in response as status code returned is 200
+        if(response.text.find(ERROR_HEAD)):
+            raise UIMSInternalError('UIMS internal error occured')
+        # Getting current session id from response
         session_block = response.text.find('CurrentSession')
         session_block_origin = session_block + response.text[session_block:].find('(')
         session_block_end = session_block + response.text[session_block:].find(')')

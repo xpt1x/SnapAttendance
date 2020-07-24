@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, send_from_directory
 from flask_cors import CORS
 from uims_api import SessionUIMS
+from uims_api.exceptions import IncorrectCredentialsError, UIMSInternalError
 import logging
 
 # For production using build
@@ -25,11 +26,16 @@ def get_data():
     if not request.form.get('password'):
         return jsonify({'error': 'Password not provided'})
 
-    my_acc = SessionUIMS(request.form.get('uid'), request.form.get('password'))
+    try:
+        my_acc = SessionUIMS(request.form.get('uid'), request.form.get('password'))
+    except Exception as e:
+        if e.__class__ == IncorrectCredentialsError:
+            return jsonify({'error': 'Invalid credentials'})
     try:
         subjects = my_acc.attendance
-    except:
-        return jsonify({'error': 'Invalid credentials'})
+    except Exception as e:
+        if e.__class__ == UIMSInternalError:
+            return jsonify({'error': 'UIMS Internal Failure'})
     else:
         return jsonify(subjects)
 

@@ -12,7 +12,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Alert, AlertTitle } from '@material-ui/lab'
 import Link from '@material-ui/core/Link';
 
-import MoreInfo from '../components/MoreInfo'
 import App from '../App'
 
 const useStyles = makeStyles((theme) => ({
@@ -52,19 +51,10 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn(props) {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [invalid, setInvalid] = React.useState(false);
-  const [showInfo, setShowInfo] = React.useState(false);
+  const [invalid, setInvalid] = React.useState(null);
   const [conn, setConn] = React.useState(true);
 
   const classes = useStyles();
-
-  function showMoreInfo() {
-    setShowInfo(true)
-  }
-
-  function hideMoreInfo() {
-    setShowInfo(false)
-  }
 
   function handleClick(event) {
     event.preventDefault();
@@ -74,7 +64,7 @@ export default function SignIn(props) {
     const pass = document.getElementById('password').value
 
     try{
-      fetch('/api', {
+      fetch('http://127.0.0.1:8080/api', {
         method: 'POST',
         body: new URLSearchParams(new FormData(form))
       }).then(data => data.json()).then(data => {
@@ -87,7 +77,7 @@ export default function SignIn(props) {
           setLoggedIn(true);
         }
         else
-          setInvalid(true)
+          setInvalid(data.error)
       }).catch(err => {
         console.log(err)
         setLoading(false)
@@ -134,20 +124,9 @@ export default function SignIn(props) {
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>
-          {invalid ? 
+          {invalid != null ? 
               <>
-              <Alert 
-                severity="error" 
-                action={
-                          <Button color="inherit" size="small" onClick={showMoreInfo}>
-                            More info
-                          </Button>
-                        }
-                >
-                Invalid Credentials
-                </Alert>
-                {showInfo ? <MoreInfo onClose={hideMoreInfo} open={showInfo} /> : ''}
-                </> : ''
+              <Alert severity="error"> {invalid} </Alert> </> : ''
           }
           {props.message ? <Alert className={classes.alert} severity="error">{props.message}</Alert>:""}
           {!conn ? <Alert className={classes.alert} severity="error">Network Error</Alert>:""}
