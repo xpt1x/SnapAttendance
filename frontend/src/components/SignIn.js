@@ -64,7 +64,7 @@ export default function SignIn(props) {
     const pass = document.getElementById('password').value
 
     try{
-      fetch('http://127.0.0.1:8080/api', {
+      fetch('/api', {
         method: 'POST',
         body: new URLSearchParams(new FormData(form))
       }).then(data => data.json()).then(data => {
