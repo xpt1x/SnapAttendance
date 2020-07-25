@@ -126,7 +126,7 @@ export default function SignIn(props) {
           </Typography>
           {invalid != null ? 
               <>
-              <Alert severity="error"> {invalid} </Alert> </> : ''
+              <Alert className={classes.alert} severity="error"> {invalid} </Alert> </> : ''
           }
           {props.message ? <Alert className={classes.alert} severity="error">{props.message}</Alert>:""}
           {!conn ? <Alert className={classes.alert} severity="error">Network Error</Alert>:""}
