@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, send_from_directory
 from flask_cors import CORS
 from uims_api import SessionUIMS
-from uims_api.exceptions import IncorrectCredentialsError, UIMSInternalError, PasswordExpiredError
+from uims_api.exceptions import IncorrectCredentialsError, UIMSInternalError
 import logging
 
 # For production using build
@@ -31,8 +31,6 @@ def get_data():
     except Exception as e:
         if e.__class__ == IncorrectCredentialsError:
             return jsonify({'error': 'Invalid credentials'})
-        elif e.__class__ == PasswordExpiredError:
-            return jsonify({'error': 'UIMS Password expired! Please update it first'})
     try:
         subjects = my_acc.attendance
     except Exception as e:
