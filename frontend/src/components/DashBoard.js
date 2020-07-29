@@ -205,12 +205,12 @@ export default function DashBoard(props)
                             <ListItem key={subject.Code}>
                                 <CardActionArea>
                                     <Card className={classes.fullWidth} onClick={() => showSubject(subject)} elevation={10}>
-                                        <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
+                                        <Box className={(subject.colorcode === 'Green' && parseFloat(subject.EligibilityPercentage)>=75) ? classes.boxGreen : classes.boxRed} borderLeft={6}>
                                             <CardContent>
                                                 <Typography variant="h6" gutterBottom>
                                                     {subject.Title.toUpperCase()}
                                                 </Typography>
-                                                <CircularProgressWithLabel value={parseFloat(subject.EligibilityPercentage)} color={subject.colorcode === 'Green' ? 'primary' : 'secondary'} />
+                                                <CircularProgressWithLabel value={parseFloat(subject.EligibilityPercentage)} color={(Isubject.colorcode === 'Green' && parseFloat(subject.EligibilityPercentage)>=75) ? 'primary' : 'secondary'} />
                                                 <Typography variant="h6" color="textSecondary" className={classes.content}>
                                                     Total Attended: {subject.Total_Attd}
                                                 </Typography>
