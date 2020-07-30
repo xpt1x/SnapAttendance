@@ -51,7 +51,7 @@ function CircularProgressWithLabel(props) {
     return (
         <Box className={classes.circular} position="relative" display="inline-flex">
             <ThemeProvider theme={circularProgressTheme}>
-                <CircularProgress size={200} variant="static" color={props.subject['colorcode'] === 'Green'? 'primary': 'secondary'} {...props} />
+                <CircularProgress size={200} variant="static" color={parseFloat(props.subject.EligibilityPercentage) >= 75.0 ? 'primary': 'secondary'} {...props} />
             </ThemeProvider>
             <Box
                 top={0}

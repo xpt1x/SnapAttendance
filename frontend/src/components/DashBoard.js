@@ -210,7 +210,7 @@ export default function DashBoard(props)
                                                 <Typography variant="h6" gutterBottom>
                                                     {subject.Title.toUpperCase()}
                                                 </Typography>
-                                                <CircularProgressWithLabel value={parseFloat(subject.EligibilityPercentage)} color={subject.colorcode === 'Green' ? 'primary' : 'secondary'} />
+                                                <CircularProgressWithLabel value={parseFloat(subject.EligibilityPercentage)} color={parseFloat(subject.EligibilityPercentage) >= 75.0 ? 'primary' : 'secondary'} />
                                                 <Typography variant="h6" color="textSecondary" className={classes.content}>
                                                     Total Attended: {subject.Total_Attd}
                                                 </Typography>
