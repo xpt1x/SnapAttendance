@@ -205,7 +205,7 @@ export default function DashBoard(props)
                             <ListItem key={subject.Code}>
                                 <CardActionArea>
                                     <Card className={classes.fullWidth} onClick={() => showSubject(subject)} elevation={10}>
-                                        <Box className={subject.colorcode === 'Green' ? classes.boxGreen : classes.boxRed} borderLeft={7}>
+                                        <Box className={parseFloat(subject.EligibilityPercentage) >= 75.0 ? classes.boxGreen : classes.boxRed} borderLeft={7}>
                                             <CardContent>
                                                 <Typography variant="h6" gutterBottom>
                                                     {subject.Title.toUpperCase()}
