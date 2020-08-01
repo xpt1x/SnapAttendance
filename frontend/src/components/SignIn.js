@@ -46,9 +46,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 export default function SignIn(props) {
+
+  var route = '/api'
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') 
+    route = 'http://127.0.0.1:8080/api'
+
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [invalid, setInvalid] = React.useState(null);
@@ -64,7 +67,7 @@ export default function SignIn(props) {
     const pass = document.getElementById('password').value
 
     try{
-      fetch('/api', {
+      fetch(route, {
         method: 'POST',
         body: new URLSearchParams(new FormData(form))
       }).then(data => data.json()).then(data => {

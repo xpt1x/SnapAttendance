@@ -80,7 +80,7 @@ function CircularProgressWithLabel(props) {
           justifyContent="center"
         >
           <Typography variant="h6" component="div" color="textPrimary">
-              {props.value}
+              {props.lectures ? props.value : <Typography color='textSecondary'> NA </Typography>}
           </Typography>
         </Box>
       </Box>
@@ -100,6 +100,10 @@ export default function DashBoard(props)
     const [subject, setSubject] = useState({});
     const cacheMinute = 10;
     
+    var route = '/api'
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') 
+        route = 'http://127.0.0.1:8080/api'
+
     function logout() {
         localStorage.removeItem('uid')
         localStorage.removeItem('password')
@@ -133,7 +137,7 @@ export default function DashBoard(props)
                 formdata.append('password', localStorage.getItem('password'))
                 setLoading(true)
                 try{
-                    fetch('/api', {
+                    fetch(route, {
                         method: 'POST',
                         body: formdata
                     }).then(data => data.json()).then(data => {
@@ -174,7 +178,7 @@ export default function DashBoard(props)
                 }
             }
         }
-    }, [loggedIn])  
+    }, [loggedIn, route])  
 
     const classes = useStyles();
 
@@ -204,13 +208,13 @@ export default function DashBoard(props)
                         {attendance.sort(compareTitles).map(subject => (
                             <ListItem key={subject.Code}>
                                 <CardActionArea>
-                                    <Card className={classes.fullWidth} onClick={() => showSubject(subject)} elevation={10}>
+                                    <Card className={classes.fullWidth} onClick={() => parseInt(subject.Total_Delv) !== 0 ? showSubject(subject): false} elevation={10}>
                                         <Box className={parseFloat(subject.EligibilityPercentage) >= 75.0 ? classes.boxGreen : classes.boxRed} borderLeft={7}>
                                             <CardContent>
                                                 <Typography variant="h6" gutterBottom>
                                                     {subject.Title.toUpperCase()}
                                                 </Typography>
-                                                <CircularProgressWithLabel value={parseFloat(subject.EligibilityPercentage)} color={parseFloat(subject.EligibilityPercentage) >= 75.0 ? 'primary' : 'secondary'} />
+                                                <CircularProgressWithLabel lectures={parseInt(subject.Total_Delv) !== 0 ? true : false} value={parseFloat(subject.EligibilityPercentage)} color={parseFloat(subject.EligibilityPercentage) >= 75.0 ? 'primary' : 'secondary'} />
                                                 <Typography variant="h6" color="textSecondary" className={classes.content}>
                                                     Total Attended: {subject.Total_Attd}
                                                 </Typography>
