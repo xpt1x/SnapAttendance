@@ -60,6 +60,12 @@ const useStyles = makeStyles(theme => ({
         right: '3%',
         transform: 'translateY(-50%)'
     },
+    colorGreen: {
+        color: '#34bf58'
+    },
+    colorRed: {
+        color : '#e05151'
+    },
 }))
 
 function CircularProgressWithLabel(props) {
@@ -111,7 +117,6 @@ export default function DashBoard(props)
     }
 
     function showSubject(subject){
-        // console.log(subject)
         setSubject(subject);
     }
 
@@ -123,6 +128,18 @@ export default function DashBoard(props)
             return 1
         else
             return 0
+    }
+
+    function AttendanceReport(subject) {
+        if(subject.FullAttendanceReport[0] && subject.FullAttendanceReport[0]['AttDate'] !== undefined) {
+            const code = subject.FullAttendanceReport[0].AttendanceCode
+            return (
+                <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
+                    Marked: <strong className={code === 'P' ? classes.colorGreen : classes.colorRed}>{code}</strong> on {subject.FullAttendanceReport[0]['AttDate']}
+                </Typography>
+            )
+        }
+        return null
     }
 
     useEffect(() => {
@@ -221,6 +238,7 @@ export default function DashBoard(props)
                                                 <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
                                                     Total Delivered: {subject.Total_Delv}
                                                 </Typography>
+                                                {AttendanceReport(subject)}
                                                 <Typography variant="overline" gutterBottom color="textPrimary" className={classes.content}>
                                                     [{subject.Code}]
                                                 </Typography>
