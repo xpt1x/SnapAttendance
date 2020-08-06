@@ -111,12 +111,4 @@ class SessionUIMS:
         # We then return the extracted JSON content
         attendance = json.loads(response.text)["d"]
         attendance = json.loads(attendance)
-
-        # Getting full attendance Report
-        full_report_url = AUTHENTICATE_URL + ENDPOINTS['Attendance'] + '/GetFullReport'
-        for obj in attendance:
-            report_data = "{course:'" + obj['EncryptCode']  + "',UID:'" + report_id + "',fromDate: '',toDate:''" + ",type:'All'" + ",Session:'" + current_session_id + "'}"
-            report_response = requests.post(full_report_url, headers=headers, data=report_data)
-            obj['FullAttendanceReport'] = json.loads(json.loads(report_response.text)['d'])
-      
         return attendance

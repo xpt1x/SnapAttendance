@@ -130,18 +130,6 @@ export default function DashBoard(props)
             return 0
     }
 
-    function AttendanceReport(subject) {
-        if(subject.FullAttendanceReport[0] && subject.FullAttendanceReport[0]['AttDate'] !== undefined) {
-            const code = subject.FullAttendanceReport[0].AttendanceCode
-            return (
-                <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
-                    Marked: <strong className={code === 'P' ? classes.colorGreen : classes.colorRed}>{code}</strong> on {subject.FullAttendanceReport[0]['AttDate']}
-                </Typography>
-            )
-        }
-        return null
-    }
-
     useEffect(() => {
         if(loggedIn){
             if (localStorage.getItem('attendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute)) {
@@ -238,7 +226,6 @@ export default function DashBoard(props)
                                                 <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
                                                     Total Delivered: {subject.Total_Delv}
                                                 </Typography>
-                                                {AttendanceReport(subject)}
                                                 <Typography variant="overline" gutterBottom color="textPrimary" className={classes.content}>
                                                     [{subject.Code}]
                                                 </Typography>
