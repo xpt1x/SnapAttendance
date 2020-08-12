@@ -1,6 +1,7 @@
 {
   "short_name": "Snap Attendance",
   "name": "Snap Attendance",
+  "description": "A quick and easy way for students of Chandigarh University to check their attendance",
   "icons": [
     {
       "src": "favicon.ico",
