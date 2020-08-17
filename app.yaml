@@ -1,4 +1,4 @@
-runtime: python
+runtime: python3
 entrypoint: gunicorn -b :$PORT application:app
 
 runtime_config:
