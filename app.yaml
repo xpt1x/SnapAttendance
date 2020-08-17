@@ -1,5 +1,5 @@
-runtime: python3
+runtime: python38
 entrypoint: gunicorn -b :$PORT application:app
 
 runtime_config:
-  python_version: 3
+  python_version: 338
