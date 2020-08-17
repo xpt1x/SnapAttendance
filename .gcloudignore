@@ -15,10 +15,7 @@
 
 # Python pycache:
 __pycache__/
-# Ignored by the build system
-<<<<<<< HEAD
-/setup.cfg
-=======
+# Ignored by the build system:
 /setup.cfg
 # Ignoring frontend files ( src )
 /frontend/node_modules/
