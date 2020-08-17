@@ -34,4 +34,7 @@ $ flask run
 
 ## Credits
 
-This project is powered by `UIMS-API`provided by **Ritiek Malhotra**
+This project is powered by `UIMS-API`provided by **Ritiek Malhotra**  
+
+## Screenshots
+<img src="https://i.imgur.com/n6qyvAB.jpg" width="270"><img src="https://imgur.com/6BPqsBX.jpg" width="270"><img src="https://imgur.com/MLyCqgj.jpg" width="270"><img src="https://imgur.com/okb0l8t.jpg" width="270"><img src="https://imgur.com/dvD2UBm.jpg" width="270"><img src="https://imgur.com/5T2wX4s.jpg" width="270">
