@@ -92,6 +92,7 @@ function SubjectDetail(props) {
     const handleClose = () => {
         setOpen(false);
         props.close({});
+        window.history.back();
     };
 
     function calcuteLectures(props, req)
