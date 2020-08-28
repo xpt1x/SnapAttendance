@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -23,10 +23,10 @@ import SubjectDetail from './SubjectDetail';
 
 const circularProgressTheme = createMuiTheme({
     palette: {
-        primary:{
+        primary: {
             main: '#34bf58'
         },
-        secondary:{
+        secondary: {
             main: '#e05151'
         }
     }
@@ -64,50 +64,49 @@ const useStyles = makeStyles(theme => ({
         color: '#34bf58'
     },
     colorRed: {
-        color : '#e05151'
+        color: '#e05151'
     },
 }))
 
 function CircularProgressWithLabel(props) {
     const classes = useStyles();
     return (
-      <Box className={classes.circular} position="relative" display="inline-flex">
-        <ThemeProvider theme={circularProgressTheme} >
-        <CircularProgress size={80} variant="static"  {...props} />
-        </ThemeProvider>
-        <Box
-          top={0}
-          left={0}
-          bottom={0}
-          right={0}
-          position="absolute"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Typography variant="h6" component="div" color="textPrimary">
-              {props.lectures ? props.value : <Typography color='textSecondary'> NA </Typography>}
-          </Typography>
+        <Box className={classes.circular} position="relative" display="inline-flex">
+            <ThemeProvider theme={circularProgressTheme} >
+                <CircularProgress size={80} variant="static"  {...props} />
+            </ThemeProvider>
+            <Box
+                top={0}
+                left={0}
+                bottom={0}
+                right={0}
+                position="absolute"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+            >
+                <Typography variant="h6" component="div" color="textPrimary">
+                    {props.lectures ? props.value : <Typography color='textSecondary'> NA </Typography>}
+                </Typography>
+            </Box>
         </Box>
-      </Box>
     );
 }
-  
+
 CircularProgressWithLabel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-export default function DashBoard(props)
-{
+export default function DashBoard(props) {
     const [attendance, setAttendance] = useState([])
     const [loading, setLoading] = useState(false)
     const [loggedIn, setLoggedIn] = useState(true);
     const [invalid, setInvalid] = useState(false);
     const [subject, setSubject] = useState({});
     const cacheMinute = 10;
-    
+
     var route = '/api'
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') 
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
         route = 'http://127.0.0.1:8080/api'
 
     function logout() {
@@ -116,22 +115,25 @@ export default function DashBoard(props)
         setLoggedIn(false);
     }
 
-    function showSubject(subject){
+    function showSubject(subject) {
         setSubject(subject);
     }
 
-    function compareTitles(a, b)
-    {
-        if(a.Title < b.Title)
+    function compareTitles(a, b) {
+        if (a.Title < b.Title)
             return -1
-        else if(a.Title > b.Title)
+        else if (a.Title > b.Title)
             return 1
         else
             return 0
     }
+    const cardClickHandler = (subject) => {
+        window.location.hash = "#subject";
+        return parseInt(subject.Total_Delv) !== 0 ? showSubject(subject) : false
+    }
 
     useEffect(() => {
-        if(loggedIn){
+        if (loggedIn) {
             if (localStorage.getItem('attendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute)) {
                 setAttendance(JSON.parse(localStorage.getItem('attendance')))
             }
@@ -141,7 +143,7 @@ export default function DashBoard(props)
                 formdata.append('uid', localStorage.getItem('uid'))
                 formdata.append('password', localStorage.getItem('password'))
                 setLoading(true)
-                try{
+                try {
                     fetch(route, {
                         method: 'POST',
                         body: formdata
@@ -163,10 +165,10 @@ export default function DashBoard(props)
                     }).catch(err => {
                         console.log(err)
                         setLoading(false);
-                        if(localStorage.getItem('attendance')){
+                        if (localStorage.getItem('attendance')) {
                             setAttendance(JSON.parse(localStorage.getItem('attendance')))
                         }
-                        else{
+                        else {
                             logout()
                         }
                     })
@@ -183,66 +185,68 @@ export default function DashBoard(props)
                 }
             }
         }
-    }, [loggedIn, route])  
+        window.addEventListener('popstate', function (event) {
+            setSubject({})
+        })
+    }, [loggedIn, route])
 
     const classes = useStyles();
 
 
-    if(loggedIn){
+    if (loggedIn) {
         return (
-            
+
             !loading ? (
-            (!Object.keys(subject).length) ? (
-                <>
-                    <AppBar position="fixed">
-                        <Toolbar>
-                            <Grid justify="space-between" container>
-                                <Grid item>
-                                    <Typography type='title' style={{marginTop: '5%'}}><strong>{Object(attendance[0])['name']}</strong> ({Object(attendance[0])['UId']})</Typography>
+                (!Object.keys(subject).length) ? (
+                    <>
+                        <AppBar position="fixed">
+                            <Toolbar>
+                                <Grid justify="space-between" container>
+                                    <Grid item>
+                                        <Typography type='title' style={{ marginTop: '5%' }}><strong>{Object(attendance[0])['name']}</strong> ({Object(attendance[0])['UId']})</Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <IconButton onClick={props.changeTheme}>
+                                            <Brightness4Icon style={{ color: '#fff' }} />
+                                        </IconButton>
+                                        <Logout onClick={logout} />
+                                    </Grid>
                                 </Grid>
-                                <Grid item>
-                                    <IconButton onClick={props.changeTheme}>
-                                        <Brightness4Icon style={{ color: '#fff' }} />
-                                    </IconButton>
-                                    <Logout onClick={logout} />
-                                </Grid>
-                            </Grid>
-                        </Toolbar>
-                    </AppBar>
-                    <List component="ul" style={{ top: '60px' }}>
-                        {attendance.sort(compareTitles).map(subject => (
-                            <ListItem key={subject.Code}>
-                                <CardActionArea>
-                                    <Card className={classes.fullWidth} onClick={() => parseInt(subject.Total_Delv) !== 0 ? showSubject(subject): false} elevation={10}>
-                                        <Box className={parseFloat(subject.EligibilityPercentage) >= 75.0 ? classes.boxGreen : classes.boxRed} borderLeft={7}>
-                                            <CardContent>
-                                                <Typography variant="h6" gutterBottom>
-                                                    {subject.Title.toUpperCase()}
+                            </Toolbar>
+                        </AppBar>
+                        <List component="ul" style={{ top: '60px' }}>
+                            {attendance.sort(compareTitles).map(subject => (
+                                <ListItem key={subject.Code}>
+                                    <CardActionArea>
+                                        <Card className={classes.fullWidth} onClick={() => { cardClickHandler(subject) }} elevation={10}>
+                                            <Box className={parseFloat(subject.EligibilityPercentage) >= 75.0 ? classes.boxGreen : classes.boxRed} borderLeft={7}>
+                                                <CardContent>
+                                                    <Typography variant="h6" gutterBottom>
+                                                        {subject.Title.toUpperCase()}
+                                                    </Typography>
+                                                    <CircularProgressWithLabel lectures={parseInt(subject.Total_Delv) !== 0 ? true : false} value={parseFloat(subject.EligibilityPercentage)} color={parseFloat(subject.EligibilityPercentage) >= 75.0 ? 'primary' : 'secondary'} />
+                                                    <Typography variant="h6" color="textSecondary" className={classes.content}>
+                                                        Total Attended: {subject.Total_Attd}
+                                                    </Typography>
+                                                    <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
+                                                        Total Delivered: {subject.Total_Delv}
+                                                    </Typography>
+                                                    <Typography variant="overline" gutterBottom color="textPrimary" className={classes.content}>
+                                                        [{subject.Code}]
                                                 </Typography>
-                                                <CircularProgressWithLabel lectures={parseInt(subject.Total_Delv) !== 0 ? true : false} value={parseFloat(subject.EligibilityPercentage)} color={parseFloat(subject.EligibilityPercentage) >= 75.0 ? 'primary' : 'secondary'} />
-                                                <Typography variant="h6" color="textSecondary" className={classes.content}>
-                                                    Total Attended: {subject.Total_Attd}
-                                                </Typography>
-                                                <Typography variant="h6" gutterBottom color="textSecondary" className={classes.content}>
-                                                    Total Delivered: {subject.Total_Delv}
-                                                </Typography>
-                                                <Typography variant="overline" gutterBottom color="textPrimary" className={classes.content}>
-                                                    [{subject.Code}]
-                                                </Typography>
-                                            </CardContent>
-                                        </Box>
-                                    </Card>
-                                </CardActionArea>
-                            </ListItem>
-                        ))}
-                    </List>
-                </>
-            ) : <SubjectDetail subject={subject} close={setSubject} />
-        ) : (<div className={classes.spinner}> <CircularProgress /> </div>)
-    
+                                                </CardContent>
+                                            </Box>
+                                        </Card>
+                                    </CardActionArea>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </>
+                ) : <SubjectDetail subject={subject} close={setSubject} />
+            ) : (<div className={classes.spinner}> <CircularProgress /> </div>)
+
         )
     }
     else
-        return invalid ? <SignIn message="Your UIMS Password Expired" /> : <SignIn/>
+        return invalid ? <SignIn message="Your UIMS Password Expired" /> : <SignIn />
 }
-  
