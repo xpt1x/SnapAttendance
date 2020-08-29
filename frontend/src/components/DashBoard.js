@@ -128,7 +128,7 @@ export default function DashBoard(props) {
             return 0
     }
     const cardClickHandler = (subject) => {
-        window.location.hash = "#subject";
+        window.location.hash = "#accsubject";
         return parseInt(subject.Total_Delv) !== 0 ? showSubject(subject) : false
     }
 
