@@ -128,8 +128,12 @@ export default function DashBoard(props) {
             return 0
     }
     const cardClickHandler = (subject) => {
-        window.location.hash = `#${subject.Code}`;
-        return parseInt(subject.Total_Delv) !== 0 ? showSubject(subject) : false
+        
+        if(parseInt(subject.Total_Delv) !== 0) {
+            window.location.hash = `#${subject.Code}`
+            return showSubject(subject)
+        }
+        return false
     }
 
     useEffect(() => {
