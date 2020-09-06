@@ -97,7 +97,9 @@ CircularProgressWithLabel.propTypes = {
 
 export default function DashBoard(props) {
     const [attendance, setAttendance] = useState([])
+    const [fullAttendance, setFullAttendance] = useState([])
     const [loading, setLoading] = useState(false)
+    const [fullloading, setFullloading] = useState(false)
     const [loggedIn, setLoggedIn] = useState(true);
     const [invalid, setInvalid] = useState(false);
     const [subject, setSubject] = useState({});
@@ -105,8 +107,11 @@ export default function DashBoard(props) {
     const cacheMinute = 10;
 
     var route = '/api/attendance'
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
+    var fullroute = '/api/fullattendance'
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
         route = `http://127.0.0.1:5000${route}`
+        fullroute = `http://127.0.0.1:5000${fullroute}`
+    }
 
     function logout() {
         localStorage.removeItem('uid')
@@ -187,6 +192,53 @@ export default function DashBoard(props) {
                     }
                 }
             }
+
+            if (localStorage.getItem('fullattendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute))
+                setFullAttendance(JSON.parse(localStorage.getItem('fullattendance')))
+
+            else {
+                const formdata = new FormData()
+                formdata.append('uid', localStorage.getItem('uid'))
+                formdata.append('password', localStorage.getItem('password'))
+                setFullloading(true)
+                try {
+                    fetch(fullroute, {
+                        method: 'POST',
+                        body: formdata
+                    }).then(data => data.json()).then(data => {
+
+                        if (data.error) {
+                            console.log('Looks like your UIMS password is changed!')
+                            setInvalid(true);
+                            logout();
+                        }
+
+                        else {
+                            setFullloading(false)
+                            setFullAttendance(data)
+
+                            localStorage.setItem('fullattendance', JSON.stringify(data))
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                        setFullloading(false);
+                        if (localStorage.getItem('fullattendance')) {
+                            setFullAttendance(JSON.parse(localStorage.getItem('fullattendance')))
+                        }
+                        else 
+                            logout()
+                    })
+                }
+                catch (e) {
+                    console.log(e)
+                    setFullloading(false);
+                    if (localStorage.getItem('fullattendance')) {
+                        setFullAttendance(JSON.parse(localStorage.getItem('fullattendance')))
+                    }
+                    else 
+                        logout()
+                }
+            }
         }
         window.addEventListener('popstate', function (event) {
             // console.log(event.path[0].location)
@@ -201,7 +253,7 @@ export default function DashBoard(props) {
                 setFullOpen(true)
             }
         })
-    }, [loggedIn, route])
+    }, [loggedIn, route, fullroute])
 
     const classes = useStyles();
 
@@ -255,7 +307,7 @@ export default function DashBoard(props) {
                             ))}
                         </List>
                     </>
-                ) : <SubjectDetail subject={subject} close={setSubject} drawerHandler={setFullOpen} drawerState={fullOpen}/>
+                ) : <SubjectDetail fullLoading={fullloading} fullAttendance={fullAttendance} subject={subject} close={setSubject} drawerHandler={setFullOpen} drawerState={fullOpen}/>
             ) : (<div className={classes.spinner}> <CircularProgress /> </div>)
 
         )
