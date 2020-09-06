@@ -18,7 +18,7 @@ def index():
 def base_static(filename):
     return send_from_directory(app.root_path + '/frontend/build/', filename)
 
-@app.route('/api', methods=['POST'])
+@app.route('/api/attendance', methods=['POST'])
 def get_data():
 
     if not request.form.get('uid'):
@@ -33,6 +33,27 @@ def get_data():
             return jsonify({'error': 'Invalid credentials'})
     try:
         subjects = my_acc.attendance
+    except Exception as e:
+        if e.__class__ == UIMSInternalError:
+            return jsonify({'error': 'UIMS Internal Failure'})
+    else:
+        return jsonify(subjects)
+
+@app.route('/api/fullattendance', methods=['POST'])
+def get_data():
+
+    if not request.form.get('uid'):
+        return jsonify({'error': 'UID not provided'})
+    if not request.form.get('password'):
+        return jsonify({'error': 'Password not provided'})
+
+    try:
+        my_acc = SessionUIMS(request.form.get('uid'), request.form.get('password'))
+    except Exception as e:
+        if e.__class__ == IncorrectCredentialsError:
+            return jsonify({'error': 'Invalid credentials'})
+    try:
+        subjects = my_acc.full_attendance
     except Exception as e:
         if e.__class__ == UIMSInternalError:
             return jsonify({'error': 'UIMS Internal Failure'})
