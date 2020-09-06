@@ -20,6 +20,8 @@ import Fab from '@material-ui/core/Fab';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Tooltip from '@material-ui/core/Tooltip';
 import FullReport from './FullReport'
+import Drawer from '@material-ui/core/Drawer';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         bottom: theme.spacing(2),
         right: theme.spacing(2),
+    },
+    limitHeight:{
+        maxHeight: 'calc(100% - 64px)',
+        top: 64,
     },
 }));
 
@@ -99,6 +105,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function SubjectDetail(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
+    const [fullOpen, setFullOpen] = React.useState(false)
     const handleClose = () => {
         setOpen(false);
         props.close({});
@@ -187,10 +194,22 @@ function SubjectDetail(props) {
                 </ListItem>
             </List>
             <Tooltip title="View full report">
-                <Fab onClick={() => console.log('clicked')} color="primary" className={classes.fab}>
+                <Fab onClick={() => setFullOpen(true)} color="primary" className={classes.fab}>
                     <AssignmentIcon />
                 </Fab>
+                
             </Tooltip>
+            {fullOpen?<FullReport open={true} close={setFullOpen}/> : null}
+            <Container className={classes.limitHeight}>
+            <Drawer anchor='bottom' classes={{docked: classes.limitHeight}}  open={fullOpen} onClose={() => setFullOpen(false)}>
+                
+                <p>Hello world</p>
+                <p>Hello world</p>
+
+                <p>Hello world</p>
+
+            </Drawer>
+            </Container>
         </Dialog>
     )
 }

@@ -13,8 +13,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
-
-
 import PropTypes from 'prop-types';
 
 import Logout from './Logout';
@@ -190,6 +188,8 @@ export default function DashBoard(props) {
             }
         }
         window.addEventListener('popstate', function (event) {
+            event.preventDefault();
+            console.log(event.path[0].location)
             setSubject({})
         })
     }, [loggedIn, route])
