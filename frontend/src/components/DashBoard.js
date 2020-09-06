@@ -101,6 +101,7 @@ export default function DashBoard(props) {
     const [loggedIn, setLoggedIn] = useState(true);
     const [invalid, setInvalid] = useState(false);
     const [subject, setSubject] = useState({});
+    const [fullOpen, setFullOpen] = React.useState(false)
     const cacheMinute = 10;
 
     var route = '/api/attendance'
@@ -128,13 +129,14 @@ export default function DashBoard(props) {
     const cardClickHandler = (subject) => {
         
         if(parseInt(subject.Total_Delv) !== 0) {
-            window.location.hash = `#${subject.Code}`
+            window.location.hash = `#subject`
             return showSubject(subject)
         }
         return false
     }
 
     useEffect(() => {
+        let lastSubject = {};
         if (loggedIn) {
             if (localStorage.getItem('attendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute)) {
                 setAttendance(JSON.parse(localStorage.getItem('attendance')))
@@ -188,9 +190,17 @@ export default function DashBoard(props) {
             }
         }
         window.addEventListener('popstate', function (event) {
-            event.preventDefault();
-            console.log(event.path[0].location)
-            setSubject({})
+            // console.log(event.path[0].location)
+            const currentHash = event.path[0].location.hash;
+            if (currentHash === ""){
+                setSubject({})
+            }
+            else if(currentHash === "#subject"){
+                setFullOpen(false);
+            }
+            else if (currentHash === "#subject#expand"){
+                setFullOpen(true)
+            }
         })
     }, [loggedIn, route])
 
@@ -246,7 +256,7 @@ export default function DashBoard(props) {
                             ))}
                         </List>
                     </>
-                ) : <SubjectDetail subject={subject} close={setSubject} />
+                ) : <SubjectDetail subject={subject} close={setSubject} drawerHandler={setFullOpen} drawerState={fullOpen}/>
             ) : (<div className={classes.spinner}> <CircularProgress /> </div>)
 
         )

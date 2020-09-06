@@ -105,7 +105,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function SubjectDetail(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
-    const [fullOpen, setFullOpen] = React.useState(false)
+    
     const handleClose = () => {
         setOpen(false);
         props.close({});
@@ -194,13 +194,13 @@ function SubjectDetail(props) {
                 </ListItem>
             </List>
             <Tooltip title="View full report">
-                <Fab onClick={() => setFullOpen(true)} color="primary" className={classes.fab}>
+                <Fab onClick={() => {props.drawerHandler(true); window.location.hash += `#expanded`}} color="primary" className={classes.fab}>
                     <AssignmentIcon />
                 </Fab>
                 
             </Tooltip>
-            {fullOpen?<FullReport open={true} close={setFullOpen}/> : null}
-            <Container className={classes.limitHeight}>
+            {props.drawerState?<FullReport open={true} close={props.drawerHandler}/> : null}
+            {/* <Container className={classes.limitHeight}>
             <Drawer anchor='bottom' classes={{docked: classes.limitHeight}}  open={fullOpen} onClose={() => setFullOpen(false)}>
                 
                 <p>Hello world</p>
@@ -209,7 +209,7 @@ function SubjectDetail(props) {
                 <p>Hello world</p>
 
             </Drawer>
-            </Container>
+            </Container> */}
         </Dialog>
     )
 }
