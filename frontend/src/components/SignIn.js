@@ -49,8 +49,12 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn(props) {
 
   var route = '/api/attendance'
-  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') 
-    route = `http://127.0.0.1:5000${route}`
+  var fullRoute = '/api/fullattendance'
+  var local = 'http://127.0.0.1:5000'
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    route = `${local}${route}`
+    fullRoute = `${local}${fullRoute}`
+  }
 
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -90,6 +94,27 @@ export default function SignIn(props) {
     catch(e){
       console.log(e)
     }
+    // for full attendance
+    try{
+      fetch(fullRoute, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(form))
+      }).then(data => data.json()).then(data => {
+        if (!data.error) {
+          localStorage.setItem('fullattendance', JSON.stringify(data))
+        }
+        // else
+        //   setInvalid(data.error)
+      }).catch(err => {
+        console.log(err)
+        //setLoading(false)
+        setConn(false)
+      })
+    }
+    catch(e){
+      console.log(e)
+    }
+
   }
 
   function Credits() {

@@ -16,6 +16,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
+import Fab from '@material-ui/core/Fab';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import Tooltip from '@material-ui/core/Tooltip';
+import FullReport from './FullReport'
+
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -32,7 +37,12 @@ const useStyles = makeStyles((theme) => ({
     secondary: {
         color: 'textSecondary',
         float: 'right'
-    }
+    },
+    fab: {
+        position: 'fixed',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+    },
 }));
 
 const circularProgressTheme = createMuiTheme({
@@ -176,6 +186,11 @@ function SubjectDetail(props) {
                     <ListItemText primary='Subject Code' secondary={props.subject.Code} />
                 </ListItem>
             </List>
+            <Tooltip title="View full report">
+                <Fab onClick={() => console.log('clicked')} color="primary" className={classes.fab}>
+                    <AssignmentIcon />
+                </Fab>
+            </Tooltip>
         </Dialog>
     )
 }

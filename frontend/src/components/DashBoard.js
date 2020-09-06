@@ -86,7 +86,7 @@ function CircularProgressWithLabel(props) {
                 justifyContent="center"
             >
                 <Typography variant="h6" component="div" color="textPrimary">
-                    {props.lectures ? props.value : <Typography color='textSecondary'> NA </Typography>}
+                    {props.lectures !== '0' ? props.value : <Typography color='textSecondary'> NA </Typography>}
                 </Typography>
             </Box>
         </Box>
@@ -228,7 +228,7 @@ export default function DashBoard(props) {
                                                     <Typography variant="h6" gutterBottom>
                                                         {subject.Title.toUpperCase()}
                                                     </Typography>
-                                                    <CircularProgressWithLabel lectures={parseInt(subject.Total_Delv) !== 0 ? true : false} value={parseFloat(subject.EligibilityPercentage)} color={parseFloat(subject.EligibilityPercentage) >= 75.0 ? 'primary' : 'secondary'} />
+                                                    <CircularProgressWithLabel lectures={parseInt(subject.Total_Delv) !== 0 ? '1' : '0'} value={parseFloat(subject.EligibilityPercentage)} color={parseFloat(subject.EligibilityPercentage) >= 75.0 ? 'primary' : 'secondary'} />
                                                     <Typography variant="h6" color="textSecondary" className={classes.content}>
                                                         Total Attended: {subject.Total_Attd}
                                                     </Typography>
