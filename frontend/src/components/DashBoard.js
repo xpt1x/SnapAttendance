@@ -105,9 +105,9 @@ export default function DashBoard(props) {
     const [subject, setSubject] = useState({});
     const cacheMinute = 10;
 
-    var route = '/api'
+    var route = '/api/attendance'
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
-        route = 'http://127.0.0.1:8080/api'
+        route = `http://127.0.0.1:5000${route}`
 
     function logout() {
         localStorage.removeItem('uid')

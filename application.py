@@ -40,7 +40,7 @@ def get_data():
         return jsonify(subjects)
 
 @app.route('/api/fullattendance', methods=['POST'])
-def get_data():
+def get_full_data():
 
     if not request.form.get('uid'):
         return jsonify({'error': 'UID not provided'})

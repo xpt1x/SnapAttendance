@@ -48,9 +48,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn(props) {
 
-  var route = '/api'
+  var route = '/api/attendance'
   if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') 
-    route = 'http://127.0.0.1:8080/api'
+    route = `http://127.0.0.1:5000${route}`
 
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
