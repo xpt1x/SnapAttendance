@@ -10,7 +10,6 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { red, green } from '@material-ui/core/colors';
 
-
 const useStyles = makeStyles((theme) => ({
   limitHeight:{
       maxHeight: '80%',
@@ -34,22 +33,19 @@ export default function FullReport(props) {
     window.history.back()
     props.close(false)
   }
-
   const classes = useStyles();
   const object = props.data.find(element => element.Code === props.code)
-  return object !== undefined ? (
-    <div>
-      <Drawer anchor='bottom' classes={{paperAnchorBottom: classes.limitHeight}} open={props.data ? true : false} onClose={handleClose}>
+  if(object !== undefined){
+      return (<Drawer anchor='bottom' classes={{paperAnchorBottom: classes.limitHeight}} open={props.data ? true : false} onClose={handleClose}>
         <List>
           {object.FullAttendanceReport.map((entry, i) => (
-      
             <div key={i}>
               <ListItem alignItems="flex-start">
                 <ListItemText
                 primary={entry.AttendanceCode === "P"? 
                 <GreenTypography>Present</GreenTypography>:
                 <RedTypography>Absent</RedTypography>
-              }
+                }
                 secondary={
                   <>
                    <Typography
@@ -74,7 +70,9 @@ export default function FullReport(props) {
             </div>
           ))}
         </List>
-      </Drawer>
-    </div>
-  ) : false
+      </Drawer>)
+}
+else{
+  return null
+}
 }

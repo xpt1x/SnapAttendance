@@ -95,12 +95,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const fullattendance = JSON.parse(localStorage.getItem('fullattendance'))
-
 function SubjectDetail(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
-    
+    const fullattendance = props.fullAttendance
     const handleClose = () => {
         setOpen(false);
         props.close({});
@@ -189,10 +187,9 @@ function SubjectDetail(props) {
                 </ListItem>
             </List>
             <Tooltip title="View full report">
-                <Fab onClick={() => {props.drawerHandler(true); window.location.hash += `#expanded`}} color="primary" className={classes.fab}>
-                    <AssignmentIcon />
+                <Fab disabled={props.fullLoading} onClick={() => {props.drawerHandler(true); window.location.hash += `#expanded`}} color="primary" className={classes.fab}>
+                    {props.fullLoading ? <CircularProgress color="inherit" /> : <AssignmentIcon/>}
                 </Fab>
-                
             </Tooltip>
             {props.drawerState?<FullReport data={fullattendance} code={props.subject.Code} close={props.drawerHandler}/> : null}
         </Dialog>
