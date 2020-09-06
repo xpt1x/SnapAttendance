@@ -20,9 +20,6 @@ import Fab from '@material-ui/core/Fab';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Tooltip from '@material-ui/core/Tooltip';
 import FullReport from './FullReport'
-import Drawer from '@material-ui/core/Drawer';
-
-
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -44,10 +41,6 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         bottom: theme.spacing(2),
         right: theme.spacing(2),
-    },
-    limitHeight:{
-        maxHeight: 'calc(100% - 64px)',
-        top: 64,
     },
 }));
 
@@ -101,6 +94,8 @@ CircularProgressWithLabel.propTypes = {
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const fullattendance = JSON.parse(localStorage.getItem('fullattendance'))
 
 function SubjectDetail(props) {
     const classes = useStyles();
@@ -199,17 +194,7 @@ function SubjectDetail(props) {
                 </Fab>
                 
             </Tooltip>
-            {fullOpen?<FullReport open={true} close={setFullOpen}/> : null}
-            <Container className={classes.limitHeight}>
-            <Drawer anchor='bottom' classes={{docked: classes.limitHeight}}  open={fullOpen} onClose={() => setFullOpen(false)}>
-                
-                <p>Hello world</p>
-                <p>Hello world</p>
-
-                <p>Hello world</p>
-
-            </Drawer>
-            </Container>
+            {fullOpen?<FullReport data={fullattendance} code={props.subject.Code} close={setFullOpen}/> : null}
         </Dialog>
     )
 }
