@@ -194,7 +194,7 @@ function SubjectDetail(props) {
                 </Fab>
                 
             </Tooltip>
-            {props.drawerState?<FullReport data={fullattendance} code={props.subject.Code} open={true} close={props.drawerHandler}/> : null}
+            {props.drawerState?<FullReport data={fullattendance} code={props.subject.Code} close={props.drawerHandler}/> : null}
         </Dialog>
     )
 }

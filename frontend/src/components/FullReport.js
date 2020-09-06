@@ -23,10 +23,10 @@ export default function FullReport(props) {
   const object = props.data.find(element => element.Code === props.code)
   return object !== undefined ? (
     <div>
-      <Drawer anchor='bottom' classes={{paperAnchorBottom: classes.limitHeight}} open={props.data ? true : false} onClose={() => handleClose}>
+      <Drawer anchor='bottom' classes={{paperAnchorBottom: classes.limitHeight}} open={props.data ? true : false} onClose={handleClose}>
         <List component="ul">
-          {object.FullAttendanceReport.map(day => (
-            <ListItem>
+          {object.FullAttendanceReport.map((day, i) => (
+            <ListItem key={i}>
               <ListItemText>{day.AttDate}</ListItemText>
             </ListItem>
           ))}
