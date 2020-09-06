@@ -100,7 +100,7 @@ const fullattendance = JSON.parse(localStorage.getItem('fullattendance'))
 function SubjectDetail(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
-    const [fullOpen, setFullOpen] = React.useState(false)
+    
     const handleClose = () => {
         setOpen(false);
         props.close({});
@@ -189,12 +189,12 @@ function SubjectDetail(props) {
                 </ListItem>
             </List>
             <Tooltip title="View full report">
-                <Fab onClick={() => setFullOpen(true)} color="primary" className={classes.fab}>
+                <Fab onClick={() => {props.drawerHandler(true); window.location.hash += `#expanded`}} color="primary" className={classes.fab}>
                     <AssignmentIcon />
                 </Fab>
                 
             </Tooltip>
-            {fullOpen?<FullReport data={fullattendance} code={props.subject.Code} close={setFullOpen}/> : null}
+            {props.drawerState?<FullReport data={fullattendance} code={props.subject.Code} open={true} close={props.drawerHandler}/> : null}
         </Dialog>
     )
 }

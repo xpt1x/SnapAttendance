@@ -13,11 +13,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FullReport(props) {
+
+  function handleClose(){
+    window.history.back()
+    props.close(false)
+  }
+
   const classes = useStyles();
   const object = props.data.find(element => element.Code === props.code)
   return object !== undefined ? (
     <div>
-      <Drawer anchor='bottom' classes={{paperAnchorBottom: classes.limitHeight}} open={props.data ? true : false} onClose={() => props.close(false)}>
+      <Drawer anchor='bottom' classes={{paperAnchorBottom: classes.limitHeight}} open={props.data ? true : false} onClose={() => handleClose}>
         <List component="ul">
           {object.FullAttendanceReport.map(day => (
             <ListItem>
