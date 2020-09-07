@@ -36,7 +36,8 @@ export default function FullReport(props) {
   const classes = useStyles();
   const object = props.data.find(element => element.Code === props.code)
   if(object !== undefined){
-      return (<Drawer anchor='bottom' classes={{paperAnchorBottom: classes.limitHeight}} open={props.data ? true : false} onClose={handleClose}>
+      return (
+      <Drawer anchor='bottom' classes={{paper: classes.limitHeight}} open={props.data ? true : false} onClose={handleClose}>
         <List>
           {object.FullAttendanceReport.map((entry, i) => (
             <div key={i}>
@@ -70,7 +71,8 @@ export default function FullReport(props) {
             </div>
           ))}
         </List>
-      </Drawer>)
+      </Drawer>
+      )
 }
 else{
   return null

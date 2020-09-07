@@ -104,7 +104,7 @@ export default function DashBoard(props) {
     const [invalid, setInvalid] = useState(false);
     const [subject, setSubject] = useState({});
     const [fullOpen, setFullOpen] = React.useState(false)
-    const cacheMinute = 10;
+    const cacheMinute = 5;
 
     var route = '/api/attendance'
     var fullroute = '/api/fullattendance'
@@ -141,7 +141,8 @@ export default function DashBoard(props) {
     }
 
     useEffect(() => {
-        if (loggedIn) {
+        if (loggedIn) 
+        {
             if (localStorage.getItem('attendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute)) {
                 setAttendance(JSON.parse(localStorage.getItem('attendance')))
             }
@@ -193,8 +194,9 @@ export default function DashBoard(props) {
                 }
             }
 
-            if (localStorage.getItem('fullattendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute))
+            if (localStorage.getItem('fullattendance') && (Date.now() - parseInt(localStorage.getItem('timestamp')) <= 1000 * 60 * cacheMinute)) {
                 setFullAttendance(JSON.parse(localStorage.getItem('fullattendance')))
+            }
 
             else {
                 const formdata = new FormData()
@@ -241,7 +243,6 @@ export default function DashBoard(props) {
             }
         }
         window.addEventListener('popstate', function (event) {
-            // console.log(event.path[0].location)
             const currentHash = event.path[0].location.hash;
             if (currentHash === ""){
                 setSubject({})
@@ -253,7 +254,7 @@ export default function DashBoard(props) {
                 setFullOpen(true)
             }
         })
-    }, [loggedIn, route, fullroute])
+    }, [route, fullroute, loggedIn])
 
     const classes = useStyles();
 

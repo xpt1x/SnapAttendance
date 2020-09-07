@@ -187,9 +187,14 @@ function SubjectDetail(props) {
                 </ListItem>
             </List>
             <Tooltip title="View full report">
-                <Fab disabled={props.fullLoading} onClick={() => {props.drawerHandler(true); window.location.hash += `#expanded`}} color="primary" className={classes.fab}>
-                    {props.fullLoading ? <CircularProgress color="inherit" /> : <AssignmentIcon/>}
-                </Fab>
+                {props.fullLoading ? 
+                        <Fab color="primary" className={classes.fab}>
+                            <CircularProgress color="inherit" />
+                        </Fab> :
+                        <Fab disabled={props.fullLoading} onClick={() => {props.drawerHandler(true); window.location.hash += `#expanded`}} color="primary" className={classes.fab}>
+                            <AssignmentIcon/>
+                        </Fab>
+                }
             </Tooltip>
             {props.drawerState?<FullReport data={fullattendance} code={props.subject.Code} close={props.drawerHandler}/> : null}
         </Dialog>
