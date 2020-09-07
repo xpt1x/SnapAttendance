@@ -12,7 +12,7 @@
 
 //Change the below comment to refresh the service worker on update
 //App Version: 2.0
-
+const version = 5;
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -34,7 +34,7 @@ export function register(config) {
       return;
     }
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js?version=4`;//urlHere
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js?version=${version}`;//urlHere
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
