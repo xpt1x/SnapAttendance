@@ -33,9 +33,8 @@ export function register(config) {
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
       return;
     }
-    //urlHere
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js?version=4`;
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js?version=4`;//urlHere
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
