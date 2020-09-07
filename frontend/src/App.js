@@ -34,7 +34,7 @@ class App extends Component {
     })    
   }
 
-  componentDidMount(){
+  componentWillMount(){
     if(!localStorage.getItem('theme')){
       localStorage.setItem('theme', JSON.stringify({
         palette: {
@@ -56,12 +56,14 @@ class App extends Component {
 
   render() {
     return(
-      <MuiThemeProvider theme={this.globalTheme}>
-        <CssBaseline />
-        {
-          (localStorage.getItem('uid')) ? <DashBoard changeTheme={this.changeTheme} /> : <SignIn />
-        }
-      </MuiThemeProvider>
+      (this.globalTheme)?(
+        <MuiThemeProvider theme={this.globalTheme}>
+          <CssBaseline />
+          {
+            (localStorage.getItem('uid')) ? <DashBoard changeTheme={this.changeTheme} /> : <SignIn />
+          }
+        </MuiThemeProvider>
+      ):((localStorage.getItem('uid')) ? <DashBoard changeTheme={this.changeTheme} /> : <SignIn />)
     )
   }
 }
