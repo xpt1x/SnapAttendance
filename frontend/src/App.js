@@ -56,14 +56,12 @@ class App extends Component {
 
   render() {
     return(
-      (this.globalTheme)?(
-        <MuiThemeProvider theme={this.globalTheme}>
-          <CssBaseline />
-          {
-            (localStorage.getItem('uid')) ? <DashBoard changeTheme={this.changeTheme} /> : <SignIn />
-          }
-        </MuiThemeProvider>
-      ):((localStorage.getItem('uid')) ? <DashBoard changeTheme={this.changeTheme} /> : <SignIn />)
+      <MuiThemeProvider theme={this.globalTheme}>
+        <CssBaseline />
+        {
+          (localStorage.getItem('uid')) ? <DashBoard changeTheme={this.changeTheme} /> : <SignIn />
+        }
+      </MuiThemeProvider>
     )
   }
 }
