@@ -1,6 +1,5 @@
 import React, { Component} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import './App.css';
 import SignIn from './components/SignIn'
 import DashBoard from './components/DashBoard';
 import {createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
@@ -34,7 +33,7 @@ class App extends Component {
     })    
   }
 
-  componentDidMount(){
+  componentWillMount(){
     if(!localStorage.getItem('theme')){
       localStorage.setItem('theme', JSON.stringify({
         palette: {
