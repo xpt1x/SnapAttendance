@@ -104,7 +104,7 @@ export default function DashBoard(props) {
     const [invalid, setInvalid] = useState(false);
     const [subject, setSubject] = useState({});
     const [fullOpen, setFullOpen] = React.useState(false)
-    const cacheMinute = 5;
+    const cacheMinute = 10;
 
     var route = '/api/attendance'
     var fullroute = '/api/fullattendance'
