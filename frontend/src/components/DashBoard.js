@@ -84,7 +84,7 @@ function CircularProgressWithLabel(props) {
                 justifyContent="center"
             >
                 <Typography variant="h6" component="div" color="textPrimary">
-                    {props.lectures !== '0' ? props.value : <Typography color='textSecondary'> NApp </Typography>}
+                    {props.lectures !== '0' ? props.value : <Typography color='textSecondary'> NA </Typography>}
                 </Typography>
             </Box>
         </Box>
