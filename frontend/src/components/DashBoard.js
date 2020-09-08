@@ -109,8 +109,8 @@ export default function DashBoard(props) {
     var route = '/api/attendance'
     var fullroute = '/api/fullattendance'
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-        route = `http://127.0.0.1:5000${route}`
-        fullroute = `http://127.0.0.1:5000${fullroute}`
+        route = `https://snapatd.tech${route}`
+        fullroute = `https://snapatd.tech${fullroute}`
     }
 
     function logout() {
