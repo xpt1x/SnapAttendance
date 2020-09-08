@@ -12,7 +12,7 @@
 
 //Change the below comment to refresh the service worker on update
 //App Version: 2.0
-const version = 7;
+const version = 8;
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
