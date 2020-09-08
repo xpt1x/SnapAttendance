@@ -106,8 +106,8 @@ export default function DashBoard(props) {
     const [fullOpen, setFullOpen] = React.useState(false)
     const cacheMinute = 5;
 
-    var route = '/api/attendance'
-    var fullroute = '/api/fullattendance'
+    var route = 'https://snapatd.tech/api/attendance'
+    var fullroute = 'https://snapatd.tech/api/fullattendance'
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
         route = `https://snapatd.tech${route}`
         fullroute = `https://snapatd.tech${fullroute}`

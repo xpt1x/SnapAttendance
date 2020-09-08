@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn(props) {
 
-  var route = '/api/attendance'
+  var route = 'https://snapatd.tech/api/attendance'
   var local = 'https://snapatd.tech'
   if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
     route = `${local}${route}`
