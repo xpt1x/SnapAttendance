@@ -1,22 +1,12 @@
-from flask import Flask, render_template, request, jsonify, redirect, send_from_directory
+from flask import Flask, render_template, request, jsonify, redirect
 from flask_cors import CORS
 from uims_api import SessionUIMS
 from uims_api.exceptions import IncorrectCredentialsError, UIMSInternalError
 import logging
 
 # For production using build
-app = Flask(__name__, template_folder='frontend/build',
-            static_folder='frontend/build/static')
+app = Flask(__name__)
 CORS(app)
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
-@app.route('/<path:filename>')
-def base_static(filename):
-    return send_from_directory(app.root_path + '/frontend/build/', filename)
 
 @app.route('/api/attendance', methods=['POST'])
 def get_data():

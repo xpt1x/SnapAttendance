@@ -48,10 +48,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn(props) {
 
-  var route = '/api/attendance'
+  var prod = 'https://snap-attendance-0.appspot.com'
   var local = 'http://127.0.0.1:5000'
+  var route = '/api/attendance'
+  
   if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
     route = `${local}${route}`
+  else
+    route = `${prod}${route}`
 
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [loading, setLoading] = React.useState(false);

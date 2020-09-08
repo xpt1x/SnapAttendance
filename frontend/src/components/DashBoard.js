@@ -84,7 +84,7 @@ function CircularProgressWithLabel(props) {
                 justifyContent="center"
             >
                 <Typography variant="h6" component="div" color="textPrimary">
-                    {props.lectures !== '0' ? props.value : <Typography color='textSecondary'> NAA </Typography>}
+                    {props.lectures !== '0' ? props.value : <Typography color='textSecondary'> NA </Typography>}
                 </Typography>
             </Box>
         </Box>
@@ -108,9 +108,16 @@ export default function DashBoard(props) {
 
     var route = '/api/attendance'
     var fullroute = '/api/fullattendance'
+    var prod = 'https://snap-attendance-0.appspot.com'
+    var local = 'http://127.0.0.1:5000'
+
     if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-        route = `http://127.0.0.1:5000${route}`
-        fullroute = `http://127.0.0.1:5000${fullroute}`
+        route = `${local}${route}`
+        fullroute = `${local}${fullroute}`
+    }
+    else {
+        route = `${prod}${route}`
+        fullroute = `${prod}${fullroute}`
     }
 
     function logout() {
