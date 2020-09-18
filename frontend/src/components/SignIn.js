@@ -134,9 +134,11 @@ export default function SignIn(props) {
           </Typography>
           {invalid != null ? 
               <>
-              <Alert className={classes.alert} severity="error"> {invalid} </Alert> </> : ''
+              <Alert className={classes.alert} severity="error"> <AlertTitle>{invalid}</AlertTitle>Visit UIMS to resolve issue</Alert> </> : ''
           }
-          {props.message ? <Alert className={classes.alert} severity="error">{props.message}</Alert>:""}
+          {props.message ? <Alert className={classes.alert} severity="error">
+          <AlertTitle>{props.message}</AlertTitle>Visit UIMS to resolve issue
+          </Alert>:""}
           {!conn ? <Alert className={classes.alert} severity="error">Network Error</Alert>:""}
           <form className={classes.form} noValidate id="signin-form">
             <TextField
