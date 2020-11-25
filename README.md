@@ -1,9 +1,14 @@
-# Snap Attendance [View App](https://snapatd.tech)
+# Snap Attendance [UNMAINTAINED] [View App](https://snapatd.tech)
 
 Snap Attendance is the new quick way for Chandigarh University's students for fetching their attendance, which shows their attendance of various subjects straight out of the box and also saves users from painful logins again and again. Also there are fields which are auto calculated to let you know, how many lectures are more required according to university's standard and saves you from getting DEBAR.
 
 App is built with REACT Framework and has a beautiful, minimal UI to save user from clutter  
 Snap attendance is also available natively to install on any device like Android / ios / desktop
+
+## UPGRADE NOTICE
+
+This project has been upgraded to [POCKETIMS](https://github.com/xpt1x/PocketIMS) which provides even more functionalities  
+So we have now redirected all the traffic from main website to [POCKETIMS](https://ims.snapatd.tech/) project website
 
 ## Contribution
 
